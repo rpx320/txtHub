@@ -336,6 +336,43 @@
             font-size: 11px;
         }
 
+        .vault-options {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: -8px 0 18px;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: var(--surface);
+        }
+
+        .vault-options[hidden] {
+            display: none;
+        }
+
+        .vault-updates-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .vault-updates-toggle input {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: var(--red);
+        }
+
+        .vault-options-hint {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
         .mobile-filter-control {
             display: none;
         }
@@ -461,6 +498,21 @@
             font-weight: 850;
             letter-spacing: 1px;
             backdrop-filter: blur(8px);
+        }
+
+        .vault-updated-tag {
+            position: absolute;
+            z-index: 2;
+            top: 12px;
+            left: 12px;
+            padding: 6px 9px;
+            border: 1px solid rgba(112, 214, 173, .35);
+            border-radius: 999px;
+            color: #b7f4dc;
+            background: rgba(13, 49, 39, .86);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: .45px;
         }
 
         .pack-cover::before {
@@ -714,9 +766,29 @@
         }
 
         .admin-download-stats h4 {
-            margin: 0 0 16px;
+            margin: 0;
             font-size: 13px;
             letter-spacing: .5px;
+        }
+
+        .admin-download-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .admin-site-version {
+            color: var(--muted);
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        .admin-site-version strong {
+            margin-left: 4px;
+            color: var(--text);
+            font-size: 11px;
         }
 
         .admin-download-stats ol {
@@ -1093,6 +1165,7 @@
 
         .pack-details-cover .cover-image {
             z-index: 0;
+            transition: transform .3s ease;
         }
 
         .pack-details-cover .cover-placeholder,
@@ -1109,6 +1182,10 @@
             opacity: 0;
             pointer-events: none;
             visibility: hidden;
+        }
+
+        .pack-details-cover.is-zoomed .cover-image {
+            transform: scale(2);
         }
 
         .pack-details-arrow {
@@ -1282,6 +1359,12 @@
             padding: 22px 0;
             color: #737e8e;
             font-size: 10px;
+        }
+
+        .site-version {
+            color: #929baa;
+            font-size: 9px;
+            white-space: nowrap;
         }
 
         .footer-inner {
@@ -2182,6 +2265,14 @@
                 </label>
             </div>
 
+            <div class="vault-options" id="vaultOptions" hidden>
+                <label class="vault-updates-toggle" for="showVaultUpdates">
+                    <input id="showVaultUpdates" type="checkbox" checked>
+                    <span>Show updated packs</span>
+                </label>
+                <span class="vault-options-hint">Only shown in your Vault for 24 hours after an edit.</span>
+            </div>
+
             <div class="admin-panel" id="adminPanel">
                 <div class="admin-header">
                     <div>
@@ -2195,7 +2286,10 @@
                 </div>
 
                 <div class="admin-download-stats" id="adminDownloadStats" hidden>
-                    <h4>🔥 Most downloaded packs</h4>
+                    <div class="admin-download-heading">
+                        <h4>🔥 Most downloaded packs</h4>
+                        <span class="admin-site-version">Website version<strong id="adminSiteVersion"></strong></span>
+                    </div>
                     <ol id="adminDownloadList"></ol>
                 </div>
 
@@ -2265,7 +2359,7 @@
     <footer>
         <div class="container footer-inner">
             <span>© <span id="year"></span> Best TXT. All rights reserved.</span>
-            <span>Made by <strong>rpx320</strong> · Made for Minecraft players.</span>
+            <span>Made by <strong>rpx320</strong> · Made for Minecraft players. <span class="site-version" id="siteVersion"></span></span>
         </div>
     </footer>
 
@@ -2424,6 +2518,7 @@
         // Add your Supabase project URL and publishable key.
         // Never put a service_role key in this file.
         // ----------------------------------------------------
+        const SITE_VERSION = "1.1";
         const SUPABASE_URL = "https://nbygmefbmltnremjimfh.supabase.co";
         const SUPABASE_KEY = "sb_publishable_J3gPtKd5xIKuM1nFnMuASA_gP5ioskr";
         const BUCKET = "txt-files";
@@ -2506,6 +2601,8 @@
         const filterNav = document.querySelector(".nav-filters");
         const mobileFilter = document.getElementById("mobileFilter");
         const sortPacks = document.getElementById("sortPacks");
+        const vaultOptions = document.getElementById("vaultOptions");
+        const showVaultUpdates = document.getElementById("showVaultUpdates");
         const adminPanel = document.getElementById("adminPanel");
         const adminStatus = document.getElementById("adminStatus");
         const previewToggle = document.getElementById("previewToggle");
@@ -2535,10 +2632,12 @@
         const packImagePreviewImage = document.getElementById("packImagePreviewImage");
         const packImagePreviewName = document.getElementById("packImagePreviewName");
         const favoritesStorageKey = "besttxt-vault";
+        const vaultUpdatesStorageKey = "besttxt-vault-show-updates";
         let lastFocusedPackCard = null;
         let activePackDetailsId = null;
         let favorites = loadFavorites();
-        let packDetailsImageOnly = false;
+        let showUpdatedPacks = loadVaultUpdatesPreference();
+        let packDetailsImageMode = 0;
         let previousBodyOverflow = "";
         let packImagePreviewObjectUrl = null;
         let editingPackImageUrl = null;
@@ -2572,6 +2671,8 @@
         let hasCustomAccent = false;
 
         document.getElementById("year").textContent = new Date().getFullYear();
+        document.getElementById("siteVersion").textContent = `v${SITE_VERSION}`;
+        document.getElementById("adminSiteVersion").textContent = `v${SITE_VERSION}`;
 
         function isHexColor(value) {
             return typeof value === "string" && /^#[0-9a-f]{6}$/i.test(value);
@@ -2796,6 +2897,16 @@
             }
         }
 
+        function loadVaultUpdatesPreference() {
+            try {
+                const saved = localStorage.getItem(vaultUpdatesStorageKey);
+                return saved === null ? true : saved === "true";
+            } catch (error) {
+                console.error("Could not load your Vault display preference:", error);
+                return true;
+            }
+        }
+
         function saveFavorites() {
             try {
                 localStorage.setItem(favoritesStorageKey, JSON.stringify([...favorites]));
@@ -2853,6 +2964,12 @@
         function getDownloadCount(pack) {
             const value = Number(pack.download_count);
             return Number.isSafeInteger(value) && value > 0 ? value : 0;
+        }
+
+        function wasPackUpdatedRecently(pack) {
+            const timestamp = Date.parse(pack.updated_at || "");
+            const age = Date.now() - timestamp;
+            return Number.isFinite(timestamp) && age >= 0 && age < 24 * 60 * 60 * 1000;
         }
 
         function getTrendingPacks() {
@@ -3072,6 +3189,9 @@
         }
 
         function renderPacks() {
+            vaultOptions.hidden = activeFilter !== "favorites";
+            showVaultUpdates.checked = showUpdatedPacks;
+
             if (!packsReady) {
                 count.parentElement.hidden = true;
                 grid.innerHTML = `<div class="empty-state" role="status">Loading packs...</div>`;
@@ -3133,6 +3253,9 @@
                     : "";
                 const isFavorite = favorites.has(String(pack.id));
                 const trendingRank = trendingRanks.get(String(pack.id));
+                const showUpdatedTag = activeFilter === "favorites" &&
+                    showUpdatedPacks &&
+                    wasPackUpdatedRecently(pack);
 
                 return `
           <article class="pack-card" data-id="${escapeHTML(pack.id)}" tabindex="0"
@@ -3141,6 +3264,7 @@
               ${pack.image_url ? `<img class="cover-image" src="${escapeHTML(pack.image_url)}" alt="" loading="lazy">` : ""}
               <span class="cover-tag">${badge}</span>
               ${trendingRank ? `<span class="trending-tag">🔥 TRENDING #${trendingRank}</span>` : ""}
+              ${showUpdatedTag ? `<span class="vault-updated-tag">UPDATED</span>` : ""}
               <button class="favorite-btn ${isFavorite ? "is-favorite" : ""}" type="button"
                   data-favorite="${escapeHTML(pack.id)}"
                   aria-label="${isFavorite ? "Remove" : "Save"} ${title} ${isFavorite ? "from" : "to"} your Vault"
@@ -3247,7 +3371,7 @@
             const cover = document.getElementById("packDetailsCover");
             const image = document.getElementById("packDetailsImage");
             cover.className = `pack-cover pack-details-cover ${getCoverClass(pack)}`;
-            setPackDetailsImageOnly(false);
+            setPackDetailsImageMode(0);
             image.hidden = !pack.image_url;
             image.alt = "";
             if (pack.image_url) image.src = pack.image_url;
@@ -3293,11 +3417,17 @@
             document.getElementById("closePackDetails").focus();
         }
 
-        function setPackDetailsImageOnly(imageOnly) {
-            packDetailsImageOnly = imageOnly;
-            document.getElementById("packDetailsCover")
-                .classList.toggle("is-image-only", imageOnly);
-            const label = imageOnly ? "Show cover with text" : "View image without cover text";
+        function setPackDetailsImageMode(mode) {
+            packDetailsImageMode = mode;
+            const cover = document.getElementById("packDetailsCover");
+            const imageOnly = mode > 0;
+            cover.classList.toggle("is-image-only", imageOnly);
+            cover.classList.toggle("is-zoomed", mode === 2);
+            const label = mode === 0
+                ? "View image without cover text"
+                : mode === 1
+                    ? "View gently zoomed image"
+                    : "Show cover with text";
             [packDetailsImageLeft, packDetailsImageRight].forEach(button => {
                 button.setAttribute("aria-label", label);
                 button.setAttribute("aria-pressed", String(imageOnly));
@@ -3305,7 +3435,7 @@
         }
 
         function togglePackDetailsImage() {
-            setPackDetailsImageOnly(!packDetailsImageOnly);
+            setPackDetailsImageMode((packDetailsImageMode + 1) % 3);
         }
 
         function closePackDetails() {
@@ -3559,6 +3689,17 @@
         });
 
         mobileFilter.addEventListener("change", () => setFilter(mobileFilter.value));
+        showVaultUpdates.addEventListener("change", () => {
+            showUpdatedPacks = showVaultUpdates.checked;
+            try {
+                localStorage.setItem(vaultUpdatesStorageKey, String(showUpdatedPacks));
+            } catch (error) {
+                console.error("Could not save your Vault display preference:", error);
+                showToast("Your updated-pack preference applies for this visit only.");
+            }
+            renderPacks();
+        });
+
         sortPacks.addEventListener("change", () => {
             activeSort = sortPacks.value;
             renderPacks();
