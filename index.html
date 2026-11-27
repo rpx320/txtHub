@@ -416,6 +416,23 @@
             gap: 19px;
         }
 
+        body.compact-pack-cards .pack-grid {
+            gap: 13px;
+        }
+
+        body.compact-pack-cards .pack-cover {
+            height: 145px;
+        }
+
+        body.compact-pack-cards .pack-content {
+            padding: 14px;
+        }
+
+        body.compact-pack-cards .pack-description {
+            min-height: 36px;
+            margin-bottom: 12px;
+        }
+
         .pack-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -755,85 +772,6 @@
             flex-wrap: wrap;
         }
 
-        .admin-download-stats {
-            margin: 0 0 24px;
-            padding: 20px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            background:
-                radial-gradient(circle at 0 0, rgba(255, 188, 94, .11), transparent 40%),
-                var(--bg);
-        }
-
-        .admin-download-stats h4 {
-            margin: 0;
-            font-size: 13px;
-            letter-spacing: .5px;
-        }
-
-        .admin-download-heading {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .admin-site-version {
-            color: var(--muted);
-            font-size: 10px;
-            white-space: nowrap;
-        }
-
-        .admin-site-version strong {
-            margin-left: 4px;
-            color: var(--text);
-            font-size: 11px;
-        }
-
-        .admin-download-stats ol {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 12px;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-
-        .admin-download-stats li {
-            display: flex;
-            min-width: 0;
-            align-items: center;
-            gap: 12px;
-            padding: 15px;
-            border: 1px solid var(--border);
-            border-radius: 11px;
-            background: var(--surface);
-        }
-
-        .admin-download-rank {
-            color: #ffc66b;
-            font-size: 14px;
-            font-weight: 850;
-        }
-
-        .admin-download-name {
-            min-width: 0;
-            flex: 1;
-            overflow: hidden;
-            color: var(--text);
-            font-size: 13px;
-            font-weight: 700;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .admin-download-count {
-            color: var(--muted);
-            font-size: 11px;
-            white-space: nowrap;
-        }
-
         .modal.admin-insights-modal {
             width: min(1000px, calc(100vw - 48px));
             max-height: min(88vh, 780px);
@@ -847,6 +785,26 @@
             justify-content: space-between;
             gap: 18px;
             margin-bottom: 20px;
+        }
+
+        .admin-insights-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-insights-version {
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--muted);
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .admin-insights-version strong {
+            margin-left: 4px;
+            color: var(--text);
         }
 
         .modal.admin-insights-modal .admin-insights-header h2 {
@@ -1440,6 +1398,54 @@
             font-size: 9px;
         }
 
+        .appearance-preferences {
+            display: grid;
+            gap: 9px;
+            margin-top: 18px;
+        }
+
+        .appearance-preferences h3 {
+            margin: 0 0 2px;
+            font-size: 12px;
+        }
+
+        .appearance-preference {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 11px 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--bg);
+            cursor: pointer;
+        }
+
+        .appearance-preference span,
+        .appearance-preference strong,
+        .appearance-preference small {
+            display: block;
+        }
+
+        .appearance-preference strong {
+            color: var(--text);
+            font-size: 11px;
+        }
+
+        .appearance-preference small {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .appearance-preference input {
+            flex: 0 0 auto;
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: var(--red);
+        }
+
         .accent-picker-row {
             display: flex;
             align-items: center;
@@ -1578,6 +1584,10 @@
                 height: 190px;
             }
 
+            body.compact-pack-cards .pack-cover {
+                height: 150px;
+            }
+
             .section-heading {
                 align-items: start;
                 flex-direction: column;
@@ -1598,10 +1608,6 @@
 
             .admin-header-actions button {
                 min-height: 40px;
-            }
-
-            .admin-download-stats ol {
-                grid-template-columns: 1fr;
             }
 
             .admin-insights-metrics,
@@ -2124,6 +2130,15 @@
                 transform: translateX(2px);
             }
         }
+
+        body.reduce-motion *,
+        body.reduce-motion *::before,
+        body.reduce-motion *::after {
+            scroll-behavior: auto !important;
+            animation-duration: .01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: .01ms !important;
+        }
     </style>
 </head>
 
@@ -2285,14 +2300,6 @@
                     </div>
                 </div>
 
-                <div class="admin-download-stats" id="adminDownloadStats" hidden>
-                    <div class="admin-download-heading">
-                        <h4>🔥 Most downloaded packs</h4>
-                        <span class="admin-site-version">Website version<strong id="adminSiteVersion"></strong></span>
-                    </div>
-                    <ol id="adminDownloadList"></ol>
-                </div>
-
                 <form class="admin-form" id="addPackForm">
                     <div class="field">
                         <label for="packTitle">Pack name</label>
@@ -2396,6 +2403,24 @@
                 </button>
             </div>
 
+            <section class="appearance-preferences" aria-labelledby="appearancePreferencesTitle">
+                <h3 id="appearancePreferencesTitle">Display preferences</h3>
+                <label class="appearance-preference" for="compactPackCards">
+                    <span>
+                        <strong>Compact pack cards</strong>
+                        <small>Use shorter previews to fit more packs on screen.</small>
+                    </span>
+                    <input id="compactPackCards" type="checkbox">
+                </label>
+                <label class="appearance-preference" for="reduceMotion">
+                    <span>
+                        <strong>Reduce motion</strong>
+                        <small>Minimize animations and transitions across the site.</small>
+                    </span>
+                    <input id="reduceMotion" type="checkbox">
+                </label>
+            </section>
+
             <label class="accent-picker-row" for="accentPicker">
                 <span>Custom accent color</span>
                 <input id="accentPicker" type="color" value="#ef4444">
@@ -2413,7 +2438,10 @@
                     <h2 id="adminInsightsTitle">Collection intel</h2>
                     <p>Downloads, top packs, and recent additions to your collection.</p>
                 </div>
-                <button class="secondary-btn" id="closeAdminInsights" type="button">Close</button>
+                <div class="admin-insights-header-actions">
+                    <span class="admin-insights-version">Website version<strong id="adminInsightsSiteVersion"></strong></span>
+                    <button class="secondary-btn" id="closeAdminInsights" type="button">Close</button>
+                </div>
             </header>
             <div class="admin-insights-metrics">
                 <div class="admin-insights-metric">
@@ -2518,7 +2546,7 @@
         // Add your Supabase project URL and publishable key.
         // Never put a service_role key in this file.
         // ----------------------------------------------------
-        const SITE_VERSION = "1.1";
+        const SITE_VERSION = "2.6";
         const SUPABASE_URL = "https://nbygmefbmltnremjimfh.supabase.co";
         const SUPABASE_KEY = "sb_publishable_J3gPtKd5xIKuM1nFnMuASA_gP5ioskr";
         const BUCKET = "txt-files";
@@ -2611,14 +2639,14 @@
         const appearanceOpen = document.getElementById("appearanceOpen");
         const accentPicker = document.getElementById("accentPicker");
         const appearanceStatus = document.getElementById("appearanceStatus");
+        const compactPackCardsToggle = document.getElementById("compactPackCards");
+        const reduceMotionToggle = document.getElementById("reduceMotion");
         const packDetailsModal = document.getElementById("packDetailsModal");
         const packDetailsDownload = document.getElementById("packDetailsDownload");
         const packDetailsImageLeft = document.getElementById("packDetailsImageLeft");
         const packDetailsImageRight = document.getElementById("packDetailsImageRight");
         const packDetailsFavorite = document.getElementById("packDetailsFavorite");
         const favoriteCount = document.getElementById("favoriteCount");
-        const adminDownloadStats = document.getElementById("adminDownloadStats");
-        const adminDownloadList = document.getElementById("adminDownloadList");
         const adminInsightsOpen = document.getElementById("adminInsightsOpen");
         const adminInsightsModal = document.getElementById("adminInsightsModal");
         const adminInsightsDownloadList = document.getElementById("adminInsightsDownloadList");
@@ -2672,7 +2700,7 @@
 
         document.getElementById("year").textContent = new Date().getFullYear();
         document.getElementById("siteVersion").textContent = `v${SITE_VERSION}`;
-        document.getElementById("adminSiteVersion").textContent = `v${SITE_VERSION}`;
+        document.getElementById("adminInsightsSiteVersion").textContent = `v${SITE_VERSION}`;
 
         function isHexColor(value) {
             return typeof value === "string" && /^#[0-9a-f]{6}$/i.test(value);
@@ -2694,13 +2722,15 @@
                 localStorage.setItem(appearanceStorageKey, JSON.stringify({
                     theme: activeAppearanceTheme,
                     accent,
-                    custom: hasCustomAccent
+                    custom: hasCustomAccent,
+                    compactPackCards: compactPackCardsToggle.checked,
+                    reduceMotion: reduceMotionToggle.checked
                 }));
                 appearanceStatus.textContent = "";
             } catch (error) {
                 console.error("Could not save appearance settings:", error);
                 appearanceStatus.textContent =
-                    "Theme applied, but this browser could not save the preference.";
+                    "Settings applied, but this browser could not save the preference.";
             }
         }
 
@@ -2743,6 +2773,12 @@
             if (persist) saveAppearance(accent);
         }
 
+        function applyDisplayPreferences(persist = true) {
+            document.body.classList.toggle("compact-pack-cards", compactPackCardsToggle.checked);
+            document.body.classList.toggle("reduce-motion", reduceMotionToggle.checked);
+            if (persist) saveAppearance(accentPicker.value);
+        }
+
         function initAppearance() {
             let saved = null;
             try {
@@ -2758,7 +2794,10 @@
                 ? saved.theme
                 : "classic";
             const useCustomAccent = Boolean(saved && saved.custom && isHexColor(saved.accent));
+            compactPackCardsToggle.checked = Boolean(saved && saved.compactPackCards);
+            reduceMotionToggle.checked = Boolean(saved && saved.reduceMotion);
             applyAppearance(savedTheme, saved && saved.accent, useCustomAccent, false);
+            applyDisplayPreferences(false);
         }
 
         function closeAppearanceSettings() {
@@ -2807,6 +2846,9 @@
         accentPicker.addEventListener("input", event => {
             applyAppearance(activeAppearanceTheme, event.currentTarget.value, true);
         });
+
+        compactPackCardsToggle.addEventListener("change", () => applyDisplayPreferences());
+        reduceMotionToggle.addEventListener("change", () => applyDisplayPreferences());
 
         document.addEventListener("keydown", event => {
             if (event.key === "Escape" && appearanceModal.classList.contains("open")) {
@@ -2877,7 +2919,6 @@
             if (!showAdminControls && adminInsightsModal.classList.contains("open")) {
                 closeAdminInsights(false);
             }
-            renderAdminDownloadStats();
             renderAdminInsights();
         }
 
@@ -3061,27 +3102,6 @@
                 : `<li class="admin-insights-empty">No published packs yet.</li>`;
         }
 
-        function renderAdminDownloadStats() {
-            if (!adminDownloadStats) return;
-            adminDownloadStats.hidden = !(isAdmin && !isPreviewMode);
-            if (adminDownloadStats.hidden) return;
-
-            const topPacks = [...packs]
-                .filter(pack => getDownloadCount(pack) > 0)
-                .sort((a, b) => getDownloadCount(b) - getDownloadCount(a))
-                .slice(0, 3);
-
-            adminDownloadList.innerHTML = topPacks.length
-                ? topPacks.map((pack, index) => `
-                    <li>
-                        <span class="admin-download-rank">${index === 0 ? "👑" : `#${index + 1}`}</span>
-                        <span class="admin-download-name">${escapeHTML(pack.title || "Untitled pack")}</span>
-                        <span class="admin-download-count">${getDownloadCount(pack).toLocaleString()} downloads</span>
-                    </li>
-                `).join("")
-                : `<li><span class="admin-download-name">No downloads tracked yet.</span></li>`;
-        }
-
         function formatFileSize(value) {
             const bytes = Number(value);
             if (!Number.isFinite(bytes) || bytes < 0) return "Not recorded";
@@ -3200,7 +3220,6 @@
 
             count.parentElement.hidden = false;
             updateFavoriteCount();
-            renderAdminDownloadStats();
             renderAdminInsights();
             if (packLoadError) {
                 count.textContent = "Collection unavailable";
