@@ -1,0 +1,4097 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best TXT — BedPvP Collection</title>
+    <meta name="theme-color" content="#0b0e14">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        :root {
+            --bg: #0b0e14;
+            --surface: #131720;
+            --surface-2: #191f2a;
+            --border: #252c38;
+            --text: #f4f6fa;
+            --muted: #929baa;
+            --red: #ef4444;
+            --red-hover: #dc3636;
+            --accent-rgb: 239, 68, 68;
+            --accent-foreground: #fff;
+            --green: #70d6ad;
+            --radius: 17px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, sans-serif;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .container {
+            width: min(1160px, calc(100% - 44px));
+            margin: 0 auto;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            height: 78px;
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: var(--bg);
+            backdrop-filter: blur(16px);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            text-decoration: none;
+            color: var(--text);
+            min-width: 190px;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: var(--red);
+            color: var(--accent-foreground);
+            font-size: 19px;
+            font-weight: 800;
+            box-shadow: 0 5px 22px rgba(var(--accent-rgb), .2);
+        }
+
+        .brand-name {
+            font-weight: 800;
+            font-size: 16px;
+            letter-spacing: -.5px;
+        }
+
+        .brand-sub {
+            display: block;
+            color: #788292;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-top: 3px;
+        }
+
+        .nav-filters {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            max-width: 40vw;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-filters::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn,
+        .view-btn {
+            border: 1px solid transparent;
+            color: #aab2bf;
+            background: transparent;
+            border-radius: 999px;
+            padding: 9px 15px;
+            font-size: 12px;
+            font-weight: 650;
+            transition: .2s;
+        }
+
+        .filter-btn:hover,
+        .view-btn:hover {
+            color: white;
+            background: var(--surface-2);
+        }
+
+        .filter-btn.active {
+            background: #f4f5f7;
+            color: #11151c;
+        }
+
+        .filter-count {
+            display: inline-grid;
+            min-width: 17px;
+            height: 17px;
+            margin-left: 4px;
+            padding: 0 4px;
+            place-items: center;
+            border-radius: 999px;
+            color: white;
+            background: rgba(var(--accent-rgb), .35);
+            font-size: 9px;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .view-btn {
+            border-color: var(--border);
+            background: var(--surface);
+            color: #d3d8e0;
+        }
+
+        .view-btn.active {
+            border-color: rgba(var(--accent-rgb), .55);
+            color: white;
+            background: rgba(var(--accent-rgb), .12);
+        }
+
+        .icon-btn {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            color: #c7ced9;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            font-size: 16px;
+        }
+
+        .icon-btn:hover {
+            border-color: #596273;
+            color: white;
+        }
+
+        .icon-btn[hidden] {
+            display: none;
+        }
+
+        /* HERO */
+        .hero {
+            padding: 76px 0 55px;
+            position: relative;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--green);
+            background: rgba(112, 214, 173, .08);
+            border: 1px solid rgba(112, 214, 173, .16);
+            border-radius: 999px;
+            padding: 7px 12px;
+            font-size: 10px;
+            font-weight: 750;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(112, 214, 173, .7);
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 6vw, 68px);
+            line-height: 1.04;
+            letter-spacing: -3.8px;
+            margin: 23px 0 16px;
+            font-weight: 800;
+        }
+
+        .hero h1 span {
+            color: #818b9b;
+        }
+
+        .hero-description {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+            max-width: 570px;
+            margin: 0;
+        }
+
+        .hero-bottom {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 27px;
+            max-width: 650px;
+        }
+
+        .search-wrap {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            height: 48px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: var(--surface);
+            padding: 0 15px;
+            transition: .2s;
+        }
+
+        .search-wrap:focus-within {
+            border-color: #596273;
+        }
+
+        .search-icon {
+            color: #778293;
+            font-size: 17px;
+        }
+
+        .search-wrap input {
+            width: 100%;
+            background: transparent;
+            border: 0;
+            outline: 0;
+            color: white;
+            font-size: 13px;
+        }
+
+        .search-wrap input::placeholder {
+            color: #727d8d;
+        }
+
+        .pack-count {
+            white-space: nowrap;
+            color: #8d98a8;
+            font-size: 12px;
+        }
+
+        .pack-count strong {
+            color: #e9edf4;
+        }
+
+        .collection-controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin: -4px 0 18px;
+        }
+
+        .collection-controls select {
+            min-width: 150px;
+            height: 38px;
+            padding: 0 11px;
+            color: var(--text);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            font-size: 11px;
+        }
+
+        .mobile-filter-control {
+            display: none;
+        }
+
+        /* SECTION */
+        .collection {
+            padding: 8px 0 80px;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            margin-bottom: 23px;
+            gap: 20px;
+        }
+
+        .section-heading h2 {
+            font-size: 22px;
+            letter-spacing: -.7px;
+            margin: 0 0 7px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 12px;
+            margin: 0;
+        }
+
+        .section-label {
+            color: #667182;
+            font-size: 10px;
+            font-weight: 750;
+            letter-spacing: 1.5px;
+        }
+
+        /* PACK CARDS */
+        .pack-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 19px;
+        }
+
+        .pack-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            min-width: 0;
+            cursor: pointer;
+            transition: transform .22s, border-color .22s, box-shadow .22s;
+        }
+
+        .pack-card:hover {
+            transform: translateY(-4px);
+            border-color: #414b5b;
+            box-shadow: 0 16px 35px rgba(0, 0, 0, .2);
+        }
+
+        .pack-card:focus-visible {
+            outline: 2px solid var(--red);
+            outline-offset: 3px;
+        }
+
+        .pack-cover {
+            height: 180px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            isolation: isolate;
+        }
+
+        .favorite-btn {
+            display: grid;
+            width: 38px;
+            height: 38px;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: 50%;
+            color: white;
+            background: rgba(8, 11, 17, .68);
+            font-size: 18px;
+            line-height: 1;
+            backdrop-filter: blur(8px);
+            transition: color .2s, background .2s, transform .2s, border-color .2s;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.08);
+            border-color: rgba(255, 255, 255, .48);
+        }
+
+        .favorite-btn.is-favorite {
+            color: #ff6b9b;
+            background: rgba(76, 17, 43, .84);
+            border-color: rgba(255, 107, 155, .6);
+        }
+
+        .pack-cover .favorite-btn {
+            position: absolute;
+            z-index: 2;
+            top: 12px;
+            right: 12px;
+        }
+
+        .pack-details-cover .pack-details-favorite {
+            right: 58px;
+        }
+
+        .trending-tag {
+            position: absolute;
+            z-index: 1;
+            left: 14px;
+            bottom: 13px;
+            padding: 6px 9px;
+            border: 1px solid rgba(255, 196, 107, .28);
+            border-radius: 999px;
+            color: #ffe0aa;
+            background: rgba(47, 31, 12, .78);
+            font-size: 8px;
+            font-weight: 850;
+            letter-spacing: 1px;
+            backdrop-filter: blur(8px);
+        }
+
+        .pack-cover::before {
+            content: "";
+            position: absolute;
+            width: 210px;
+            height: 210px;
+            border-radius: 50%;
+            filter: blur(55px);
+            opacity: .35;
+            z-index: -1;
+        }
+
+        .cover-red {
+            background: linear-gradient(135deg, #101d32, #172b49 55%, #111827);
+        }
+
+        .cover-red::before {
+            background: #327bd5;
+        }
+
+        .cover-purple {
+            background: linear-gradient(135deg, #211e2c, #343044 55%, #171923);
+        }
+
+        .cover-purple::before {
+            background: #9872c9;
+        }
+
+        .cover-blue {
+            background: linear-gradient(135deg, #111a2c, #1b3150 55%, #111827);
+        }
+
+        .cover-blue::before {
+            background: #3974c5;
+        }
+
+        .cover-gold {
+            background: linear-gradient(135deg, #292117, #49351c 55%, #171711);
+        }
+
+        .cover-gold::before {
+            background: #c18b3b;
+        }
+
+        .cover-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            inset: 0;
+            opacity: .78;
+        }
+
+        .cover-placeholder {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cover-mini {
+            color: rgba(255, 255, 255, .58);
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+        }
+
+        .cover-title {
+            color: white;
+            font-size: clamp(20px, 2.4vw, 27px);
+            line-height: 1.05;
+            font-weight: 800;
+            letter-spacing: -1.2px;
+            text-shadow: 0 3px 22px rgba(0, 0, 0, .35);
+        }
+
+        .cover-tag {
+            position: absolute;
+            left: 14px;
+            top: 14px;
+            padding: 6px 9px;
+            border-radius: 6px;
+            color: #e8edf5;
+            background: rgba(9, 12, 18, .58);
+            border: 1px solid rgba(255, 255, 255, .12);
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            backdrop-filter: blur(8px);
+        }
+
+        .pack-content {
+            padding: 18px;
+        }
+
+        .pack-topline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .pack-content h3 {
+            font-size: 16px;
+            margin: 0;
+            letter-spacing: -.4px;
+        }
+
+        .resolution {
+            color: var(--red);
+            background: rgba(var(--accent-rgb), .1);
+            border: 1px solid rgba(var(--accent-rgb), .17);
+            border-radius: 6px;
+            padding: 5px 8px;
+            font-size: 9px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .pack-description {
+            min-height: 42px;
+            color: #929baa;
+            font-size: 11px;
+            line-height: 1.7;
+            margin: 0 0 18px;
+        }
+
+        .pack-file-size {
+            color: #818c9d;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        .pack-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            border-top: 1px solid rgba(255, 255, 255, .06);
+            padding-top: 14px;
+        }
+
+        .mc-version {
+            color: #818c9d;
+            font-size: 10px;
+        }
+
+        .download-btn,
+        .primary-btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            background: var(--red);
+            border: 0;
+            color: var(--accent-foreground);
+            border-radius: 9px;
+            padding: 10px 14px;
+            font-size: 10px;
+            font-weight: 800;
+            transition: .2s;
+            text-decoration: none;
+        }
+
+        .download-btn:hover,
+        .primary-btn:hover {
+            background: var(--red-hover);
+            transform: translateY(-1px);
+        }
+
+        .download-btn:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            padding: 55px 20px;
+            border: 1px dashed #303949;
+            border-radius: var(--radius);
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .trending-empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .trending-empty-state p {
+            max-width: 560px;
+            margin: 0;
+            line-height: 1.7;
+        }
+
+        /* ADMIN */
+        .admin-panel {
+            display: none;
+            margin: 0 0 45px;
+            padding: 20px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+
+        .admin-panel.visible {
+            display: block;
+        }
+
+        .admin-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .admin-header h3 {
+            margin: 0;
+            font-size: 15px;
+        }
+
+        .admin-header p {
+            color: var(--muted);
+            font-size: 11px;
+            margin: 5px 0 0;
+        }
+
+        .admin-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .admin-download-stats {
+            margin: 0 0 24px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background:
+                radial-gradient(circle at 0 0, rgba(255, 188, 94, .11), transparent 40%),
+                var(--bg);
+        }
+
+        .admin-download-stats h4 {
+            margin: 0 0 16px;
+            font-size: 13px;
+            letter-spacing: .5px;
+        }
+
+        .admin-download-stats ol {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .admin-download-stats li {
+            display: flex;
+            min-width: 0;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: var(--surface);
+        }
+
+        .admin-download-rank {
+            color: #ffc66b;
+            font-size: 14px;
+            font-weight: 850;
+        }
+
+        .admin-download-name {
+            min-width: 0;
+            flex: 1;
+            overflow: hidden;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 700;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .admin-download-count {
+            color: var(--muted);
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .modal.admin-insights-modal {
+            width: min(1000px, calc(100vw - 48px));
+            max-height: min(88vh, 780px);
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .admin-insights-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        .modal.admin-insights-modal .admin-insights-header h2 {
+            margin: 4px 0 7px;
+            font-size: 25px;
+        }
+
+        .modal.admin-insights-modal .admin-insights-header p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .admin-insights-kicker {
+            color: #ffc66b;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+        }
+
+        .admin-insights-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .admin-insights-metric {
+            min-width: 0;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg);
+        }
+
+        .admin-insights-metric span,
+        .admin-insights-metric small {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .admin-insights-metric strong {
+            display: block;
+            margin: 6px 0 3px;
+            font-size: 28px;
+            letter-spacing: -.5px;
+        }
+
+        .admin-insights-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .admin-insights-section {
+            min-width: 0;
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg);
+        }
+
+        .admin-insights-section h3 {
+            margin: 0 0 16px;
+            font-size: 16px;
+        }
+
+        .admin-insights-list {
+            display: grid;
+            gap: 12px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .admin-insights-list li {
+            display: flex;
+            min-width: 0;
+            align-items: center;
+            gap: 13px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: var(--surface);
+        }
+
+        .admin-insights-list .admin-insights-empty {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .admin-insights-rank {
+            flex: 0 0 30px;
+            color: #ffc66b;
+            font-size: 16px;
+            font-weight: 850;
+        }
+
+        .admin-insights-pack {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .admin-insights-pack strong,
+        .admin-insights-pack small {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .admin-insights-pack strong {
+            color: var(--text);
+            font-size: 15px;
+        }
+
+        .admin-insights-pack small {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .admin-insights-value {
+            flex: 0 0 auto;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 750;
+        }
+
+        .admin-insights-footnote {
+            margin: 15px 0 0 !important;
+            font-size: 10px !important;
+        }
+
+        .admin-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        .field label {
+            color: #aab4c3;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .field-hint {
+            color: var(--muted);
+            font-size: 9px;
+            line-height: 1.4;
+        }
+
+        .field input,
+        .field textarea,
+        .field select {
+            width: 100%;
+            padding: 11px 12px;
+            color: var(--text);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            outline: none;
+            font-size: 12px;
+        }
+
+        .field input:focus,
+        .field textarea:focus,
+        .field select:focus {
+            border-color: #68778d;
+        }
+
+        .field textarea {
+            min-height: 75px;
+            resize: vertical;
+        }
+
+        .field input[type="file"] {
+            padding: 8px;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 9px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .secondary-btn {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 10px 13px;
+            border-radius: 9px;
+            font-size: 10px;
+            font-weight: 750;
+        }
+
+        .secondary-btn:hover {
+            background: var(--surface);
+        }
+
+        .preview-exit {
+            display: none;
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            z-index: 45;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .35);
+        }
+
+        .preview-exit.visible {
+            display: inline-flex;
+        }
+
+        .delete-btn {
+            border: 1px solid rgba(var(--accent-rgb), .25);
+            color: var(--red);
+            background: rgba(var(--accent-rgb), .08);
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .delete-btn:hover {
+            background: rgba(var(--accent-rgb), .18);
+        }
+
+        .admin-card-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            padding: 0 18px 16px;
+        }
+
+        .edit-btn {
+            padding: 8px 10px;
+            font-size: 9px;
+        }
+
+        /* MODAL + FOOTER */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, .72);
+            backdrop-filter: blur(7px);
+        }
+
+        .modal-backdrop.open {
+            display: flex;
+        }
+
+        .modal {
+            width: min(410px, 100%);
+            padding: 25px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, .5);
+        }
+
+        .modal h2 {
+            font-size: 19px;
+            margin: 0 0 7px;
+        }
+
+        .modal p {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.6;
+            margin: 0 0 20px;
+        }
+
+        .modal .field {
+            margin-bottom: 13px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 9px;
+            margin-top: 17px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+        }
+
+        .pack-details-modal {
+            position: relative;
+            width: min(620px, 100%);
+            max-height: min(90vh, 820px);
+            padding: 0;
+            overflow-y: auto;
+        }
+
+        .pack-details-cover {
+            height: clamp(190px, 38vw, 280px);
+            border-radius: 17px 17px 0 0;
+        }
+
+        .pack-details-cover .cover-image {
+            z-index: 0;
+        }
+
+        .pack-details-cover .cover-placeholder,
+        .pack-details-cover .cover-tag {
+            transition: opacity .2s ease, visibility .2s ease;
+        }
+
+        .pack-details-cover .cover-tag {
+            z-index: 1;
+        }
+
+        .pack-details-cover.is-image-only .cover-placeholder,
+        .pack-details-cover.is-image-only .cover-tag {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .pack-details-arrow {
+            position: absolute;
+            z-index: 2;
+            top: 50%;
+            display: grid;
+            width: 38px;
+            height: 38px;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, .22);
+            border-radius: 50%;
+            color: white;
+            background: rgba(5, 8, 14, .72);
+            font-size: 18px;
+            transform: translateY(-50%);
+            backdrop-filter: blur(8px);
+            transition: background .2s, opacity .2s;
+        }
+
+        .pack-details-arrow:hover:not(:disabled) {
+            background: rgba(5, 8, 14, .95);
+        }
+
+        .pack-details-arrow:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+        }
+
+        .pack-details-arrow-left {
+            left: 12px;
+        }
+
+        .pack-details-arrow-right {
+            right: 12px;
+        }
+
+        .pack-details-close {
+            position: absolute;
+            z-index: 2;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(255, 255, 255, .2);
+            border-radius: 10px;
+            color: white;
+            background: rgba(5, 8, 14, .72);
+            font-size: 19px;
+            backdrop-filter: blur(8px);
+        }
+
+        .pack-details-content {
+            padding: 23px;
+        }
+
+        .pack-details-heading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .pack-details-heading h2 {
+            margin: 0;
+            font-size: clamp(20px, 4vw, 27px);
+            letter-spacing: -.7px;
+        }
+
+        .pack-details-description {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.75;
+            white-space: pre-wrap;
+        }
+
+        .pack-details-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin: 18px 0;
+        }
+
+        .pack-details-meta span {
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--muted);
+            background: var(--bg);
+            font-size: 10px;
+        }
+
+        .pack-details-meta strong {
+            margin-left: 4px;
+            color: var(--text);
+        }
+
+        .pack-details-actions {
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .status-message {
+            color: #aeb8c7;
+            font-size: 11px;
+            min-height: 16px;
+            margin-top: 12px;
+        }
+
+        .status-message[data-state="success"] {
+            color: #8ce0b5;
+        }
+
+        .status-message[data-state="error"] {
+            color: #ff9a9a;
+        }
+
+        .site-toast {
+            position: fixed;
+            z-index: 80;
+            right: 22px;
+            bottom: 22px;
+            max-width: min(360px, calc(100vw - 32px));
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 107, 155, .4);
+            border-radius: 12px;
+            color: #fff1f6;
+            background: rgba(38, 17, 28, .96);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, .35);
+            font-size: 12px;
+            font-weight: 700;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: opacity .2s ease, transform .2s ease;
+        }
+
+        .site-toast.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .pack-image-preview {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        .pack-image-preview[hidden] {
+            display: none;
+        }
+
+        .pack-image-preview img {
+            width: 76px;
+            height: 54px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            object-fit: cover;
+            background: var(--bg);
+        }
+
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, .06);
+            padding: 22px 0;
+            color: #737e8e;
+            font-size: 10px;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .appearance-modal {
+            width: min(520px, 100%);
+        }
+
+        .appearance-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .appearance-header h2 {
+            margin: 0 0 6px;
+            font-size: 19px;
+        }
+
+        .appearance-header p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .theme-option {
+            padding: 9px;
+            text-align: left;
+            color: var(--text);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 11px;
+        }
+
+        .theme-option.active {
+            border-color: var(--red);
+            box-shadow: 0 0 0 1px var(--red);
+        }
+
+        .theme-swatch {
+            display: block;
+            height: 42px;
+            margin-bottom: 8px;
+            border-radius: 7px;
+            background: linear-gradient(115deg, var(--swatch-bg) 0 68%, var(--swatch-accent) 68%);
+        }
+
+        .theme-option strong,
+        .theme-option small {
+            display: block;
+        }
+
+        .theme-option strong {
+            font-size: 11px;
+        }
+
+        .theme-option small {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .accent-picker-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 17px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+            color: var(--text);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .accent-picker-row input {
+            width: 48px;
+            height: 34px;
+            padding: 2px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface-2);
+            cursor: pointer;
+        }
+
+        .appearance-status {
+            min-height: 0;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 800px) {
+            .pack-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .nav-filters {
+                display: none;
+            }
+
+            .collection-controls {
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+
+            .mobile-filter-control {
+                display: block;
+            }
+
+            .hero {
+                padding-top: 58px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .container {
+                width: min(100% - 28px, 1160px);
+            }
+
+            .navbar {
+                height: 68px;
+            }
+
+            .brand {
+                min-width: auto;
+            }
+
+            .brand-sub {
+                font-size: 8px;
+            }
+
+            .view-btn {
+                padding: 8px 10px;
+                font-size: 10px;
+            }
+
+            .nav-inner {
+                gap: 10px;
+            }
+
+            .brand {
+                gap: 7px;
+            }
+
+            .brand-name {
+                font-size: 14px;
+            }
+
+            .nav-actions {
+                gap: 4px;
+            }
+
+            .nav-actions .icon-btn {
+                width: 32px;
+                height: 34px;
+            }
+
+            .nav-actions .view-btn {
+                padding: 7px 7px;
+                font-size: 9px;
+            }
+
+            .hero {
+                padding: 48px 0 42px;
+            }
+
+            .hero h1 {
+                letter-spacing: -2.5px;
+            }
+
+            .hero-description {
+                font-size: 12px;
+            }
+
+            .hero-bottom {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .pack-count {
+                padding-left: 2px;
+            }
+
+            .pack-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .collection-controls {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .collection-controls select {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .pack-cover {
+                height: 190px;
+            }
+
+            .section-heading {
+                align-items: start;
+                flex-direction: column;
+            }
+
+            .admin-panel {
+                padding: 15px;
+            }
+
+            .admin-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .admin-header-actions {
+                width: 100%;
+            }
+
+            .admin-header-actions button {
+                min-height: 40px;
+            }
+
+            .admin-download-stats ol {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-insights-metrics,
+            .admin-insights-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal.admin-insights-modal {
+                width: calc(100vw - 28px);
+                padding: 20px;
+            }
+
+            .admin-form {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+            }
+
+            .appearance-modal {
+                padding: 19px;
+            }
+
+            .pack-details-content {
+                padding: 18px;
+            }
+
+            .pack-details-arrow,
+            .pack-details-close {
+                min-width: 42px;
+                min-height: 42px;
+            }
+
+            .collection-controls select {
+                min-height: 42px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            #focusSearch {
+                display: none;
+            }
+        }
+
+        /* FULLSCREEN DISCOVER */
+        .discover-screen {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 40;
+            overflow: hidden;
+            background: var(--bg);
+            isolation: isolate;
+        }
+
+        .discover-screen.active {
+            display: block;
+            animation: discoverFade .35s ease;
+        }
+
+        @keyframes discoverFade {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .discover-background {
+            position: absolute;
+            inset: 0;
+            z-index: -4;
+            background:
+                radial-gradient(ellipse at 70% 40%, #263c61 0%, transparent 48%),
+                linear-gradient(120deg, #101827, #090b12);
+            background-size: cover;
+            background-position: center;
+            transform: scale(1.04);
+            transition: background-image .3s ease;
+        }
+
+        .discover-background.has-image {
+            animation: backgroundReveal .65s ease;
+        }
+
+        @keyframes backgroundReveal {
+            from {
+                transform: scale(1.09);
+                opacity: .65;
+            }
+
+            to {
+                transform: scale(1.04);
+                opacity: 1;
+            }
+        }
+
+        .discover-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: -3;
+            background:
+                linear-gradient(90deg, rgba(5, 8, 14, .96) 0%, rgba(5, 8, 14, .77) 38%, rgba(5, 8, 14, .22) 100%),
+                linear-gradient(0deg, #080a10 0%, transparent 42%, rgba(5, 8, 14, .25) 100%);
+        }
+
+        .discover-glow {
+            position: absolute;
+            z-index: -2;
+            width: 550px;
+            height: 550px;
+            right: 12%;
+            top: 10%;
+            border-radius: 50%;
+            background: var(--discover-color, #397bd0);
+            opacity: .13;
+            filter: blur(130px);
+            pointer-events: none;
+            transition: background .5s ease;
+        }
+
+        .discover-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 85px;
+            padding: 0 5.5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, .09);
+            background: rgba(5, 8, 14, .24);
+            backdrop-filter: blur(12px);
+        }
+
+        .discover-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: .4px;
+        }
+
+        .discover-brand small {
+            display: block;
+            color: #929baa;
+            font-size: 8px;
+            letter-spacing: 1.7px;
+            margin-top: 4px;
+        }
+
+        .discover-back {
+            border: 1px solid rgba(255, 255, 255, .15);
+            background: rgba(255, 255, 255, .06);
+            color: white;
+            border-radius: 10px;
+            padding: 11px 15px;
+            font-size: 11px;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+            transition: .2s;
+        }
+
+        .discover-back:hover {
+            background: rgba(255, 255, 255, .14);
+        }
+
+        .discover-content {
+            position: absolute;
+            left: 9%;
+            top: 42%;
+            transform: translateY(-50%);
+            width: min(590px, 80%);
+        }
+
+        .discover-info {
+            animation: slideText .45s ease;
+        }
+
+        @keyframes slideText {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .discover-kicker {
+            color: #ff7777;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2.5px;
+            height: 12px;
+            line-height: 12px;
+            margin-bottom: 17px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .discover-number {
+            color: rgba(255, 255, 255, .42);
+            font-size: 10px;
+            letter-spacing: 2px;
+            height: 12px;
+            line-height: 12px;
+            margin-bottom: 15px;
+        }
+
+        .discover-content h1 {
+            font-size: clamp(48px, 5vw, 72px);
+            line-height: .98;
+            letter-spacing: -5px;
+            font-weight: 800;
+            color: white;
+            height: 1.96em;
+            margin: 0 0 23px;
+            overflow: hidden;
+            text-transform: uppercase;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
+        .discover-content h1 span {
+            color: #aab4c4;
+            display: block;
+        }
+
+        .discover-content p {
+            color: #b2bbc9;
+            font-size: 14px;
+            line-height: 1.8;
+            max-width: 430px;
+            height: 5.4em;
+            margin: 0 0 20px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+        }
+
+        .discover-version {
+            color: #d3d9e3;
+            font-size: 10px;
+            letter-spacing: 1px;
+            font-weight: 700;
+            height: 12px;
+            line-height: 12px;
+            margin-bottom: 26px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .discover-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 9px;
+            height: 97px;
+        }
+
+        .discover-download {
+            height: 46px;
+            min-height: 46px;
+            padding: 0 22px;
+            border: 0;
+            border-radius: 9px;
+            background: var(--red);
+            color: var(--accent-foreground);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .6px;
+            transition: .2s;
+        }
+
+        .discover-download:hover {
+            background: var(--red-hover);
+            transform: translateY(-2px);
+        }
+
+        .discover-download:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .discover-download span {
+            margin-left: 12px;
+        }
+
+        .discover-details {
+            height: 42px;
+            min-height: 42px;
+            padding: 0 17px;
+            border: 1px solid rgba(255, 255, 255, .22);
+            border-radius: 9px;
+            background: rgba(255, 255, 255, .08);
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .6px;
+            transition: .2s;
+        }
+
+        .discover-details:hover {
+            background: rgba(255, 255, 255, .16);
+            transform: translateY(-2px);
+        }
+
+        .discover-arrow {
+            position: absolute;
+            z-index: 3;
+            top: 50%;
+            width: 46px;
+            height: 46px;
+            border: 1px solid rgba(255, 255, 255, .2);
+            background: rgba(255, 255, 255, .07);
+            color: white;
+            border-radius: 9px;
+            font-size: 19px;
+            transform: translateY(-50%);
+            transition: background .2s ease, transform .2s ease;
+        }
+
+        .discover-arrow-left {
+            left: clamp(14px, 3vw, 44px);
+        }
+
+        .discover-arrow-right {
+            right: clamp(14px, 3vw, 44px);
+        }
+
+        .discover-arrow:hover {
+            background: rgba(255, 255, 255, .18);
+        }
+
+        .discover-arrow-left:hover {
+            transform: translate(-2px, -50%);
+        }
+
+        .discover-arrow-right:hover {
+            transform: translate(2px, -50%);
+        }
+
+        .discover-arrow:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+        }
+
+        .discover-bottom {
+            position: absolute;
+            bottom: 16px;
+            left: 5.5%;
+            right: 5.5%;
+        }
+
+        .discover-bottom-label {
+            display: flex;
+            justify-content: space-between;
+            color: #929baa;
+            font-size: 9px;
+            letter-spacing: 1.8px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .discover-thumbnails {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 2px 2px 8px;
+            scrollbar-width: none;
+        }
+
+        .discover-thumbnails::-webkit-scrollbar {
+            display: none;
+        }
+
+        .discover-thumb {
+            flex: 0 0 190px;
+            height: 88px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            background: rgba(16, 21, 31, .75);
+            border-radius: 11px;
+            color: white;
+            text-align: left;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: stretch;
+            cursor: pointer;
+            opacity: .68;
+            transition: .25s;
+            backdrop-filter: blur(12px);
+        }
+
+        .discover-thumb:hover {
+            opacity: 1;
+            border-color: rgba(255, 255, 255, .4);
+        }
+
+        .discover-thumb.active {
+            opacity: 1;
+            border-color: var(--red);
+            background: rgba(var(--accent-rgb), .13);
+            box-shadow: 0 0 20px rgba(var(--accent-rgb), .12);
+        }
+
+        .thumb-preview {
+            width: 73px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #182c49, #304b72);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .thumb-info {
+            padding: 17px 11px;
+            min-width: 0;
+        }
+
+        .thumb-info strong {
+            display: block;
+            font-size: 10px;
+            margin-bottom: 7px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .thumb-info small {
+            color: #9aa5b5;
+            font-size: 9px;
+        }
+
+        @media (max-width: 700px) {
+            .discover-top {
+                height: 70px;
+                padding: 0 18px;
+            }
+
+            .discover-content {
+                left: 22px;
+                top: 36%;
+                width: calc(100% - 44px);
+            }
+
+            .discover-content h1 {
+                font-size: clamp(43px, 12vw, 65px);
+                letter-spacing: -2.5px;
+            }
+
+            .discover-content p {
+                font-size: 12px;
+                max-width: 330px;
+            }
+
+            .discover-overlay {
+                background:
+                    linear-gradient(90deg, rgba(5, 8, 14, .88), rgba(5, 8, 14, .48)),
+                    linear-gradient(0deg, #080a10 0%, transparent 65%);
+            }
+
+            .discover-bottom {
+                left: 18px;
+                right: 18px;
+                bottom: 8px;
+            }
+
+            .discover-thumb {
+                flex-basis: 165px;
+                height: 76px;
+            }
+
+            .thumb-preview {
+                width: 60px;
+            }
+
+            .thumb-info {
+                padding: 13px 9px;
+            }
+
+            .discover-back {
+                padding: 10px;
+            }
+
+            .discover-back span {
+                display: none;
+            }
+
+            .discover-arrow {
+                top: 82px;
+                width: 40px;
+                height: 40px;
+                transform: none;
+            }
+
+            .discover-arrow-left:hover {
+                transform: translateX(-2px);
+            }
+
+            .discover-arrow-right:hover {
+                transform: translateX(2px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="container nav-inner">
+            <a class="brand" href="#">
+                <div class="brand-icon">B</div>
+                <div>
+                    <div class="brand-name">Best TXT</div>
+                    <span class="brand-sub">BEDPVP COLLECTION</span>
+                </div>
+            </a>
+
+            <nav class="nav-filters" aria-label="Pack filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="trending">🔥 Trending</button>
+                <button class="filter-btn" data-filter="pvp">PvP</button>
+                <button class="filter-btn" data-filter="ely">Ely</button>
+                <button class="filter-btn" data-filter="other">Other</button>
+                <button class="filter-btn" data-filter="favorites">♥ Vault <span class="filter-count" id="favoriteCount">0</span></button>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="icon-btn" id="focusSearch" title="Search">⌕</button>
+                <button class="view-btn active" id="gridMode">▦ Grid</button>
+                <button class="view-btn" id="discoverMode">↔ Discover</button>
+                <button class="icon-btn" id="adminOpen" title="Admin login">⌘</button>
+                <button class="icon-btn" id="appearanceOpen" type="button"
+                    title="Appearance settings" aria-label="Appearance settings">⚙</button>
+                <button class="icon-btn" id="adminInsightsOpen" type="button" hidden
+                    title="Admin collection insights" aria-label="Open admin collection insights">
+                    <svg aria-hidden="true" viewBox="0 0 20 20" width="17" height="17" fill="none">
+                        <path d="M3 16.5h14M5.5 13V9.5M10 13V5.5M14.5 13V7.5"
+                            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+
+    <section class="discover-screen" id="discoverScreen">
+        <div class="discover-background" id="discoverBackground"></div>
+        <div class="discover-overlay"></div>
+        <div class="discover-glow" id="discoverGlow"></div>
+
+        <div class="discover-top">
+            <div class="discover-brand">
+                <span class="brand-icon">B</span>
+                <span>BEST TXT <small>BEDPVP COLLECTION</small></span>
+            </div>
+            <button class="discover-back" id="backToGrid">✕ <span>Back to collection</span></button>
+        </div>
+
+        <div class="site-toast" id="siteToast" role="status" aria-live="polite"></div>
+
+        <div class="discover-content">
+            <div class="discover-info">
+                <div class="discover-kicker" id="discoverBadge">FEATURED PACK</div>
+                <div class="discover-number" id="discoverNumber">01 / 04</div>
+                <h1 id="discoverTitle">REDSTONE PACK <span>16x</span></h1>
+                <p id="discoverDescription"></p>
+
+                <div class="discover-version" id="discoverVersion">
+                    MINECRAFT 1.20.4+
+                </div>
+
+                <div class="discover-buttons">
+                    <button class="discover-download" id="discoverDownload">
+                        DOWNLOAD TXT <span>↗</span>
+                    </button>
+                    <button class="discover-details" id="discoverDetails" type="button">
+                        VIEW PACK DETAILS
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <button class="discover-arrow discover-arrow-left" id="discoverPrevious"
+            type="button" aria-label="Previous pack">←</button>
+        <button class="discover-arrow discover-arrow-right" id="discoverNext"
+            type="button" aria-label="Next pack">→</button>
+
+        <div class="discover-bottom">
+            <div class="discover-bottom-label">
+                <span>EXPLORE COLLECTION</span>
+                <span id="discoverCounter">01 — 04</span>
+            </div>
+            <div class="discover-thumbnails" id="discoverThumbnails"></div>
+        </div>
+    </section>
+
+
+    <main class="container">
+        <section class="hero">
+            <div class="eyebrow"><span class="eyebrow-dot"></span>Your collection of packs</div>
+            <h1>Find your<br><span>perfect TXT.</span></h1>
+            <p class="hero-description">
+                Explore texture packs made for PvP. Find your style, check Minecraft
+                compatibility and choose the setup that fits your game.
+            </p>
+            <div class="hero-bottom">
+                <div class="search-wrap">
+                    <span class="search-icon">⌕</span>
+                    <input id="searchInput" type="search" placeholder="Search packs..." autocomplete="off">
+                </div>
+                <div class="pack-count"><strong id="packCount">4 packs</strong> available</div>
+            </div>
+        </section>
+
+        <section class="collection" id="collection">
+            <div class="section-heading">
+                <div>
+                    <h2>Featured packs</h2>
+                    <p>Choose a pack and find your next PvP setup.</p>
+                </div>
+                <div class="section-label">BEST TXT / BOX PVP</div>
+            </div>
+
+            <div class="collection-controls" aria-label="Collection display options">
+                <label class="mobile-filter-control">
+                    <span class="sr-only">Filter packs</span>
+                    <select id="mobileFilter" aria-label="Filter packs">
+                        <option value="all">All categories</option>
+                        <option value="trending">🔥 Trending</option>
+                        <option value="pvp">PvP</option>
+                        <option value="ely">Ely</option>
+                        <option value="other">Other</option>
+                        <option value="favorites">♥ Your Vault</option>
+                    </select>
+                </label>
+                <label>
+                    <span class="sr-only">Sort packs</span>
+                    <select id="sortPacks" aria-label="Sort packs">
+                        <option value="newest">Recently added</option>
+                        <option value="title">Name: A to Z</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="admin-panel" id="adminPanel">
+                <div class="admin-header">
+                    <div>
+                        <h3>Admin dashboard</h3>
+                        <p>Add new texture packs or manage your collection.</p>
+                    </div>
+                    <div class="admin-header-actions">
+                        <button class="secondary-btn" id="previewToggle" type="button">Preview as visitor</button>
+                        <button class="secondary-btn" id="logoutBtn" type="button">Log out</button>
+                    </div>
+                </div>
+
+                <div class="admin-download-stats" id="adminDownloadStats" hidden>
+                    <h4>🔥 Most downloaded packs</h4>
+                    <ol id="adminDownloadList"></ol>
+                </div>
+
+                <form class="admin-form" id="addPackForm">
+                    <div class="field">
+                        <label for="packTitle">Pack name</label>
+                        <input id="packTitle" required maxlength="70" placeholder="e.g. Redstone Pack 16x">
+                    </div>
+                    <div class="field">
+                        <label for="packResolution">Resolution</label>
+                        <select id="packResolution" required>
+                            <option value="16x">16x</option>
+                            <option value="32x">32x</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="packType">Filter category</label>
+                        <select id="packType" required>
+                            <option value="pvp">PvP</option>
+                            <option value="ely">Ely</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <small class="field-hint">Choose which top filter should contain this pack.</small>
+                    </div>
+                    <div class="field">
+                        <label for="packVersion">Minecraft version</label>
+                        <input id="packVersion" required maxlength="40" placeholder="Minecraft 1.20+">
+                    </div>
+                    <div class="field">
+                        <label for="packBadge">Small badge / server tag</label>
+                        <input id="packBadge" maxlength="24" placeholder="e.g. #supreme or BoxPvP">
+                        <small class="field-hint">Displayed on the pack; choose its filter category above.</small>
+                    </div>
+                    <div class="field full">
+                        <label for="packDescription">Description</label>
+                        <textarea id="packDescription" required maxlength="240"
+                            placeholder="Describe this pack..."></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="packFile" id="packFileLabel">TXT file (.zip)</label>
+                        <input id="packFile" type="file" accept=".zip,application/zip" required>
+                    </div>
+                    <div class="field">
+                        <label for="packImage" id="packImageLabel">Preview image (optional)</label>
+                        <input id="packImage" type="file" accept="image/png,image/jpeg,image/webp">
+                        <div class="pack-image-preview" id="packImagePreview" hidden>
+                            <img id="packImagePreviewImage" alt="Selected pack preview">
+                            <span id="packImagePreviewName"></span>
+                        </div>
+                    </div>
+                    <div class="field full admin-actions">
+                        <button class="primary-btn" type="submit" id="addPackBtn">＋ Add TXT pack</button>
+                        <button class="secondary-btn" type="button" id="cancelPackEdit" hidden>Cancel edit</button>
+                        <span class="status-message" id="adminStatus" role="status" aria-live="polite"></span>
+                    </div>
+                </form>
+            </div>
+
+            <div class="pack-grid" id="packGrid"></div>
+        </section>
+    </main>
+
+    <button class="secondary-btn preview-exit" id="previewExit" type="button">
+        Exit visitor preview
+    </button>
+
+    <footer>
+        <div class="container footer-inner">
+            <span>© <span id="year"></span> Best TXT. All rights reserved.</span>
+            <span>Made by <strong>rpx320</strong> · Made for Minecraft players.</span>
+        </div>
+    </footer>
+
+    <div class="modal-backdrop" id="appearanceModal" aria-hidden="true">
+        <div class="modal appearance-modal" role="dialog" aria-modal="true" aria-labelledby="appearanceTitle">
+            <div class="appearance-header">
+                <div>
+                    <h2 id="appearanceTitle">Appearance</h2>
+                    <p>Choose a preset look or customize the accent color.</p>
+                </div>
+                <button class="secondary-btn" id="closeAppearance" type="button">Close</button>
+            </div>
+
+            <div class="theme-grid" aria-label="Preset themes">
+                <button class="theme-option active" type="button" data-theme="classic" aria-pressed="true">
+                    <span class="theme-swatch" style="--swatch-bg:#0b0e14;--swatch-accent:#ef4444"></span>
+                    <strong>Classic</strong><small>Charcoal · red</small>
+                </button>
+                <button class="theme-option" type="button" data-theme="ocean" aria-pressed="false">
+                    <span class="theme-swatch" style="--swatch-bg:#08131c;--swatch-accent:#38bdf8"></span>
+                    <strong>Ocean</strong><small>Deep blue · cyan</small>
+                </button>
+                <button class="theme-option" type="button" data-theme="violet" aria-pressed="false">
+                    <span class="theme-swatch" style="--swatch-bg:#120d1b;--swatch-accent:#bf82ff"></span>
+                    <strong>Violet</strong><small>Dark purple · lilac</small>
+                </button>
+                <button class="theme-option" type="button" data-theme="forest" aria-pressed="false">
+                    <span class="theme-swatch" style="--swatch-bg:#0b1511;--swatch-accent:#4ade80"></span>
+                    <strong>Forest</strong><small>Deep green · mint</small>
+                </button>
+                <button class="theme-option" type="button" data-theme="sunset" aria-pressed="false">
+                    <span class="theme-swatch" style="--swatch-bg:#190f0c;--swatch-accent:#fb923c"></span>
+                    <strong>Sunset</strong><small>Warm dark · orange</small>
+                </button>
+            </div>
+
+            <label class="accent-picker-row" for="accentPicker">
+                <span>Custom accent color</span>
+                <input id="accentPicker" type="color" value="#ef4444">
+            </label>
+            <div class="status-message appearance-status" id="appearanceStatus" aria-live="polite"></div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop" id="adminInsightsModal" aria-hidden="true">
+        <section class="modal admin-insights-modal" role="dialog" aria-modal="true"
+            aria-labelledby="adminInsightsTitle">
+            <header class="admin-insights-header">
+                <div>
+                    <span class="admin-insights-kicker">ADMIN ONLY · COLLECTION PULSE</span>
+                    <h2 id="adminInsightsTitle">Collection intel</h2>
+                    <p>Downloads, top packs, and recent additions to your collection.</p>
+                </div>
+                <button class="secondary-btn" id="closeAdminInsights" type="button">Close</button>
+            </header>
+            <div class="admin-insights-metrics">
+                <div class="admin-insights-metric">
+                    <span>Tracked downloads</span>
+                    <strong id="adminMetricDownloads">0</strong>
+                    <small>Prepared download links</small>
+                </div>
+                <div class="admin-insights-metric">
+                    <span>Published packs</span>
+                    <strong id="adminMetricPacks">0</strong>
+                    <small>Visible in the collection</small>
+                </div>
+                <div class="admin-insights-metric">
+                    <span>Added by you</span>
+                    <strong id="adminMetricYourPacks">0</strong>
+                    <small>Matched by your admin account</small>
+                </div>
+            </div>
+            <div class="admin-insights-grid">
+                <section class="admin-insights-section" aria-labelledby="adminInsightsLeaderboardTitle">
+                    <h3 id="adminInsightsLeaderboardTitle">🔥 Download leaderboard</h3>
+                    <ol class="admin-insights-list" id="adminInsightsDownloadList"></ol>
+                </section>
+                <section class="admin-insights-section" aria-labelledby="adminInsightsRecentTitle">
+                    <h3 id="adminInsightsRecentTitle">✨ Latest pack drops</h3>
+                    <ol class="admin-insights-list" id="adminRecentPacksList"></ol>
+                </section>
+            </div>
+            <p class="admin-insights-footnote">
+                Counts track prepared download links, not confirmed ZIP transfers. Creator IDs come from
+                <code>created_by</code>; older packs without that field show as untracked.
+            </p>
+        </section>
+    </div>
+
+    <div class="modal-backdrop" id="loginModal">
+        <div class="modal">
+            <h2>Admin login</h2>
+            <p>Sign in with an authorized Best TXT administrator account.</p>
+            <form id="loginForm">
+                <div class="field">
+                    <label for="emailInput">Email</label>
+                    <input id="emailInput" type="email" autocomplete="username" required placeholder="Admin email">
+                </div>
+                <div class="field">
+                    <label for="passwordInput">Password</label>
+                    <input id="passwordInput" type="password" autocomplete="current-password" required
+                        placeholder="Password">
+                </div>
+                <div class="modal-actions">
+                    <button class="secondary-btn" type="button" id="closeLogin">Cancel</button>
+                    <button class="primary-btn" type="submit" id="loginBtn">Log in</button>
+                </div>
+                <div class="status-message" id="loginStatus"></div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-backdrop" id="packDetailsModal" aria-hidden="true">
+        <article class="modal pack-details-modal" role="dialog" aria-modal="true"
+            aria-labelledby="packDetailsTitle">
+            <div class="pack-cover pack-details-cover" id="packDetailsCover">
+                <img class="cover-image" id="packDetailsImage" alt="" hidden>
+                <span class="cover-tag" id="packDetailsCoverTag"></span>
+                <div class="cover-placeholder">
+                    <div class="cover-mini">BEST TXT COLLECTION</div>
+                    <div class="cover-title" id="packDetailsCoverTitle"></div>
+                </div>
+                <button class="pack-details-close" id="closePackDetails" type="button"
+                    aria-label="Close pack details">×</button>
+                <button class="favorite-btn pack-details-favorite" id="packDetailsFavorite"
+                    type="button" aria-label="Save pack to your vault" aria-pressed="false">♥</button>
+                <button class="pack-details-arrow pack-details-arrow-left" id="packDetailsImageLeft"
+                    type="button" aria-label="View image without cover text" aria-pressed="false">←</button>
+                <button class="pack-details-arrow pack-details-arrow-right" id="packDetailsImageRight"
+                    type="button" aria-label="View image without cover text" aria-pressed="false">→</button>
+            </div>
+            <div class="pack-details-content">
+                <div class="pack-details-heading">
+                    <h2 id="packDetailsTitle"></h2>
+                    <span class="resolution" id="packDetailsResolution"></span>
+                </div>
+                <p class="pack-details-description" id="packDetailsDescription"></p>
+                <div class="pack-details-meta">
+                    <span>Minecraft version<strong id="packDetailsVersion"></strong></span>
+                    <span>Category<strong id="packDetailsCategory"></strong></span>
+                    <span>Badge<strong id="packDetailsBadge"></strong></span>
+                    <span>File size<strong id="packDetailsFileSize"></strong></span>
+                </div>
+                <div class="pack-details-actions">
+                    <button class="download-btn" id="packDetailsDownload" type="button">
+                        Download <span>↗</span>
+                    </button>
+                </div>
+            </div>
+        </article>
+    </div>
+
+    <script>
+        // ----------------------------------------------------
+        // SUPABASE CONFIGURATION
+        // Add your Supabase project URL and publishable key.
+        // Never put a service_role key in this file.
+        // ----------------------------------------------------
+        const SUPABASE_URL = "https://nbygmefbmltnremjimfh.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_J3gPtKd5xIKuM1nFnMuASA_gP5ioskr";
+        const BUCKET = "txt-files";
+
+        const supabaseConfigured =
+            SUPABASE_URL.startsWith("https://") &&
+            !SUPABASE_URL.includes("YOUR_") &&
+            SUPABASE_KEY.length > 20 &&
+            !SUPABASE_KEY.includes("YOUR_");
+
+        const db = supabaseConfigured
+            ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+            : null;
+
+        let packsReady = !db;
+
+        const demoPacks = [
+            {
+                id: "demo-redstone",
+                title: "Redstone Pack 16x",
+                resolution: "16x",
+                category: "16x",
+                description: "A lightweight pack for high FPS and clear block outlines on BoxPvP.",
+                version: "Minecraft 1.20.4+",
+                badge: "POPULAR",
+                cover: "cover-red",
+                coverTitle: "16x REDSTONE<br>PACK",
+                file_path: null
+            },
+            {
+                id: "demo-small",
+                title: "Small D.TXT",
+                resolution: "16x",
+                category: "16x",
+                description: "Short swords, low fire and a clean inventory GUI for PvP.",
+                version: "Minecraft 1.16–1.21",
+                badge: "MINIMAL",
+                cover: "cover-purple",
+                coverTitle: "SMALL<br>D.TXT",
+                file_path: null
+            },
+            {
+                id: "demo-crystal",
+                title: "Crystal Dark 32x",
+                resolution: "32x",
+                category: "32x",
+                description: "Dark textures with neon details for crystal PvP, armor and totems.",
+                version: "Minecraft 1.20+",
+                badge: "CRYSTAL PVP",
+                cover: "cover-blue",
+                coverTitle: "32x CRYSTAL<br>DARK",
+                file_path: null
+            },
+            {
+                id: "demo-gold",
+                title: "Gold Rush PvP",
+                resolution: "PvP",
+                category: "pvp",
+                description: "Golden details, a custom sky and polished combat sounds.",
+                version: "Minecraft 1.18+",
+                badge: "PVP",
+                cover: "cover-gold",
+                coverTitle: "GOLD RUSH<br>PVP",
+                file_path: null
+            }
+        ];
+
+        let packs = [...demoPacks];
+        let activeFilter = "all";
+        let activeSort = "newest";
+        let viewMode = "grid";
+        let isAdmin = false;
+        let isPreviewMode = false;
+        let currentUserId = null;
+        let editingPackId = null;
+
+        const grid = document.getElementById("packGrid");
+        const count = document.getElementById("packCount");
+        const searchInput = document.getElementById("searchInput");
+        const filterNav = document.querySelector(".nav-filters");
+        const mobileFilter = document.getElementById("mobileFilter");
+        const sortPacks = document.getElementById("sortPacks");
+        const adminPanel = document.getElementById("adminPanel");
+        const adminStatus = document.getElementById("adminStatus");
+        const previewToggle = document.getElementById("previewToggle");
+        const previewExit = document.getElementById("previewExit");
+        const appearanceModal = document.getElementById("appearanceModal");
+        const appearanceOpen = document.getElementById("appearanceOpen");
+        const accentPicker = document.getElementById("accentPicker");
+        const appearanceStatus = document.getElementById("appearanceStatus");
+        const packDetailsModal = document.getElementById("packDetailsModal");
+        const packDetailsDownload = document.getElementById("packDetailsDownload");
+        const packDetailsImageLeft = document.getElementById("packDetailsImageLeft");
+        const packDetailsImageRight = document.getElementById("packDetailsImageRight");
+        const packDetailsFavorite = document.getElementById("packDetailsFavorite");
+        const favoriteCount = document.getElementById("favoriteCount");
+        const adminDownloadStats = document.getElementById("adminDownloadStats");
+        const adminDownloadList = document.getElementById("adminDownloadList");
+        const adminInsightsOpen = document.getElementById("adminInsightsOpen");
+        const adminInsightsModal = document.getElementById("adminInsightsModal");
+        const adminInsightsDownloadList = document.getElementById("adminInsightsDownloadList");
+        const adminRecentPacksList = document.getElementById("adminRecentPacksList");
+        const adminMetricDownloads = document.getElementById("adminMetricDownloads");
+        const adminMetricPacks = document.getElementById("adminMetricPacks");
+        const adminMetricYourPacks = document.getElementById("adminMetricYourPacks");
+        const siteToast = document.getElementById("siteToast");
+        const packImageInput = document.getElementById("packImage");
+        const packImagePreview = document.getElementById("packImagePreview");
+        const packImagePreviewImage = document.getElementById("packImagePreviewImage");
+        const packImagePreviewName = document.getElementById("packImagePreviewName");
+        const favoritesStorageKey = "besttxt-vault";
+        let lastFocusedPackCard = null;
+        let activePackDetailsId = null;
+        let favorites = loadFavorites();
+        let packDetailsImageOnly = false;
+        let previousBodyOverflow = "";
+        let packImagePreviewObjectUrl = null;
+        let editingPackImageUrl = null;
+        let packLoadError = null;
+        let toastTimeout = null;
+
+        const appearanceThemes = {
+            classic: {
+                bg: "#0b0e14", surface: "#131720", surface2: "#191f2a", border: "#252c38",
+                text: "#f4f6fa", muted: "#929baa", accent: "#ef4444"
+            },
+            ocean: {
+                bg: "#08131c", surface: "#0e1e2b", surface2: "#142b3b", border: "#28475a",
+                text: "#eef8ff", muted: "#94aebe", accent: "#38bdf8"
+            },
+            violet: {
+                bg: "#120d1b", surface: "#1c1427", surface2: "#281c38", border: "#42304f",
+                text: "#f7f1ff", muted: "#b2a1c2", accent: "#bf82ff"
+            },
+            forest: {
+                bg: "#0b1511", surface: "#122019", surface2: "#1b2c22", border: "#304738",
+                text: "#eff8f1", muted: "#9db3a3", accent: "#4ade80"
+            },
+            sunset: {
+                bg: "#190f0c", surface: "#251713", surface2: "#33201a", border: "#4a3028",
+                text: "#fff4ed", muted: "#c4a398", accent: "#fb923c"
+            }
+        };
+        const appearanceStorageKey = "besttxt-appearance";
+        let activeAppearanceTheme = "classic";
+        let hasCustomAccent = false;
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        function isHexColor(value) {
+            return typeof value === "string" && /^#[0-9a-f]{6}$/i.test(value);
+        }
+
+        function getColorChannels(hex) {
+            const value = Number.parseInt(hex.slice(1), 16);
+            return [(value >> 16) & 255, (value >> 8) & 255, value & 255];
+        }
+
+        function darkenColor(hex, factor) {
+            return "#" + getColorChannels(hex)
+                .map(channel => Math.round(channel * factor).toString(16).padStart(2, "0"))
+                .join("");
+        }
+
+        function saveAppearance(accent) {
+            try {
+                localStorage.setItem(appearanceStorageKey, JSON.stringify({
+                    theme: activeAppearanceTheme,
+                    accent,
+                    custom: hasCustomAccent
+                }));
+                appearanceStatus.textContent = "";
+            } catch (error) {
+                console.error("Could not save appearance settings:", error);
+                appearanceStatus.textContent =
+                    "Theme applied, but this browser could not save the preference.";
+            }
+        }
+
+        function applyAppearance(themeName, accentOverride, useCustomAccent, persist = true) {
+            const hasTheme = typeof themeName === "string" &&
+                Object.prototype.hasOwnProperty.call(appearanceThemes, themeName);
+            const theme = hasTheme ? appearanceThemes[themeName] : appearanceThemes.classic;
+            activeAppearanceTheme = hasTheme ? themeName : "classic";
+            hasCustomAccent = Boolean(useCustomAccent && isHexColor(accentOverride));
+            const accent = hasCustomAccent ? accentOverride : theme.accent;
+            const [red, green, blue] = getColorChannels(accent);
+            const linear = [red, green, blue].map(channel => {
+                const normalized = channel / 255;
+                return normalized <= .04045
+                    ? normalized / 12.92
+                    : ((normalized + .055) / 1.055) ** 2.4;
+            });
+            const luminance = .2126 * linear[0] + .7152 * linear[1] + .0722 * linear[2];
+            const rootStyle = document.documentElement.style;
+
+            rootStyle.setProperty("--bg", theme.bg);
+            rootStyle.setProperty("--surface", theme.surface);
+            rootStyle.setProperty("--surface-2", theme.surface2);
+            rootStyle.setProperty("--border", theme.border);
+            rootStyle.setProperty("--text", theme.text);
+            rootStyle.setProperty("--muted", theme.muted);
+            rootStyle.setProperty("--red", accent);
+            rootStyle.setProperty("--red-hover", darkenColor(accent, .82));
+            rootStyle.setProperty("--accent-rgb", `${red}, ${green}, ${blue}`);
+            rootStyle.setProperty("--accent-foreground", luminance > .179 ? "#11151c" : "#ffffff");
+            document.querySelector('meta[name="theme-color"]').content = theme.bg;
+            accentPicker.value = accent;
+
+            document.querySelectorAll(".theme-option").forEach(button => {
+                const selected = !hasCustomAccent && button.dataset.theme === activeAppearanceTheme;
+                button.classList.toggle("active", selected);
+                button.setAttribute("aria-pressed", String(selected));
+            });
+
+            if (persist) saveAppearance(accent);
+        }
+
+        function initAppearance() {
+            let saved = null;
+            try {
+                const stored = localStorage.getItem(appearanceStorageKey);
+                if (stored) saved = JSON.parse(stored);
+            } catch (error) {
+                console.error("Could not load saved appearance settings:", error);
+                appearanceStatus.textContent = "Could not load the saved appearance preference.";
+            }
+
+            const savedTheme = saved && typeof saved.theme === "string" &&
+                Object.prototype.hasOwnProperty.call(appearanceThemes, saved.theme)
+                ? saved.theme
+                : "classic";
+            const useCustomAccent = Boolean(saved && saved.custom && isHexColor(saved.accent));
+            applyAppearance(savedTheme, saved && saved.accent, useCustomAccent, false);
+        }
+
+        function closeAppearanceSettings() {
+            appearanceModal.classList.remove("open");
+            appearanceModal.setAttribute("aria-hidden", "true");
+            appearanceOpen.focus();
+        }
+
+        function closeAdminInsights(returnFocus = true) {
+            adminInsightsModal.classList.remove("open");
+            adminInsightsModal.setAttribute("aria-hidden", "true");
+            if (returnFocus && !adminInsightsOpen.hidden) adminInsightsOpen.focus();
+        }
+
+        function openAdminInsights() {
+            if (!isAdmin || isPreviewMode) return;
+            renderAdminInsights();
+            adminInsightsModal.classList.add("open");
+            adminInsightsModal.setAttribute("aria-hidden", "false");
+            document.getElementById("closeAdminInsights").focus();
+        }
+
+        adminInsightsOpen.addEventListener("click", openAdminInsights);
+        document.getElementById("closeAdminInsights").addEventListener("click", () => closeAdminInsights());
+        adminInsightsModal.addEventListener("click", event => {
+            if (event.target === adminInsightsModal) closeAdminInsights();
+        });
+
+        appearanceOpen.addEventListener("click", () => {
+            appearanceModal.classList.add("open");
+            appearanceModal.setAttribute("aria-hidden", "false");
+            document.getElementById("closeAppearance").focus();
+        });
+
+        document.getElementById("closeAppearance").addEventListener("click", closeAppearanceSettings);
+        appearanceModal.addEventListener("click", event => {
+            if (event.target === appearanceModal) closeAppearanceSettings();
+        });
+
+        document.querySelectorAll(".theme-option").forEach(button => {
+            button.addEventListener("click", () => {
+                applyAppearance(button.dataset.theme, null, false);
+            });
+        });
+
+        accentPicker.addEventListener("input", event => {
+            applyAppearance(activeAppearanceTheme, event.currentTarget.value, true);
+        });
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape" && appearanceModal.classList.contains("open")) {
+                closeAppearanceSettings();
+            }
+            if (event.key === "Escape" && adminInsightsModal.classList.contains("open")) {
+                closeAdminInsights();
+            }
+        });
+
+        initAppearance();
+
+        function escapeHTML(value = "") {
+            return String(value).replace(/[&<>"']/g, char => ({
+                "&": "&amp;", "<": "&lt;", ">": "&gt;",
+                '"': "&quot;", "'": "&#039;"
+            })[char]);
+        }
+
+        function getCoverClass(pack) {
+            const title = (pack.title || "").toLowerCase();
+            if (title.includes("gold")) return "cover-gold";
+            if (title.includes("crystal") || title.includes("blue")) return "cover-blue";
+            if (title.includes("small") || title.includes("minimal")) return "cover-purple";
+            return "cover-red";
+        }
+
+        function getCoverTitle(pack) {
+            if (pack.coverTitle) return pack.coverTitle;
+            return escapeHTML(pack.title || "TEXTURE PACK").toUpperCase();
+        }
+
+        function getPackType(pack) {
+            const category = String(pack.category || "").trim().toLowerCase();
+            const resolution = String(pack.resolution || "").trim().toLowerCase();
+            const knownTypes = ["pvp", "ely", "other"];
+
+            if (knownTypes.includes(category) && category !== resolution) return category;
+
+            const primaryKeywords = `${pack.badge || ""} ${pack.title || ""}`.toLowerCase();
+            const elyKeywords = /(^|[^a-z0-9])(?:ely|elytra|box[\s_-]*pvp|supreme)(?=$|[^a-z0-9])/;
+            const pvpKeywords = /(^|[^a-z0-9])(?:cpvp|mace|uhc|pvp|swords?)(?=$|[^a-z0-9])/;
+
+            if (elyKeywords.test(primaryKeywords)) {
+                return "ely";
+            }
+            if (pvpKeywords.test(primaryKeywords)) {
+                return "pvp";
+            }
+
+            const description = String(pack.description || "").toLowerCase();
+            if (elyKeywords.test(description)) return "ely";
+            if (pvpKeywords.test(description)) return "pvp";
+
+            return knownTypes.includes(category) ? category : "other";
+        }
+
+        function getPackTypeLabel(pack) {
+            const labels = { pvp: "PvP", ely: "Ely", other: "Other" };
+            return labels[getPackType(pack)];
+        }
+
+        function updateAdminVisibility() {
+            const showAdminControls = isAdmin && !isPreviewMode;
+            adminPanel.classList.toggle("visible", showAdminControls);
+            previewExit.classList.toggle("visible", isAdmin && isPreviewMode);
+            adminInsightsOpen.hidden = !showAdminControls;
+            if (!showAdminControls && adminInsightsModal.classList.contains("open")) {
+                closeAdminInsights(false);
+            }
+            renderAdminDownloadStats();
+            renderAdminInsights();
+        }
+
+        function setAdminStatus(message, state = "") {
+            adminStatus.textContent = message;
+            if (state) adminStatus.dataset.state = state;
+            else delete adminStatus.dataset.state;
+        }
+
+        function loadFavorites() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(favoritesStorageKey) || "[]");
+                return new Set(Array.isArray(saved) ? saved.map(String) : []);
+            } catch (error) {
+                console.error("Could not load saved packs:", error);
+                return new Set();
+            }
+        }
+
+        function saveFavorites() {
+            try {
+                localStorage.setItem(favoritesStorageKey, JSON.stringify([...favorites]));
+                return true;
+            } catch (error) {
+                console.error("Could not save your Vault:", error);
+                return false;
+            }
+        }
+
+        function showToast(message) {
+            siteToast.textContent = message;
+            siteToast.classList.add("visible");
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => siteToast.classList.remove("visible"), 2400);
+        }
+
+        function updateFavoriteButton(button, pack) {
+            const isFavorite = favorites.has(String(pack.id));
+            const label = isFavorite ? `Remove ${pack.title} from your Vault` : `Save ${pack.title} to your Vault`;
+            button.classList.toggle("is-favorite", isFavorite);
+            button.setAttribute("aria-label", label);
+            button.setAttribute("aria-pressed", String(isFavorite));
+            button.title = isFavorite ? "Remove from your Vault" : "Save to your Vault";
+        }
+
+        function updateFavoriteCount() {
+            const savedCount = packs.filter(pack => favorites.has(String(pack.id))).length;
+            favoriteCount.textContent = String(savedCount);
+        }
+
+        function toggleFavorite(packId) {
+            const id = String(packId);
+            const pack = packs.find(item => String(item.id) === id);
+            if (!pack) return;
+
+            const wasFavorite = favorites.has(id);
+            if (wasFavorite) favorites.delete(id);
+            else favorites.add(id);
+
+            const persisted = saveFavorites();
+            updateFavoriteCount();
+            renderPacks();
+
+            if (activePackDetailsId && packDetailsModal.classList.contains("open")) {
+                const activePack = packs.find(item => String(item.id) === String(activePackDetailsId));
+                if (activePack) updateFavoriteButton(packDetailsFavorite, activePack);
+            }
+            if (viewMode === "discover") renderDiscover();
+
+            const message = wasFavorite ? "Removed from your Vault" : "Saved to your Vault ✦";
+            showToast(persisted ? message : `${message} for this visit only; browser storage is unavailable.`);
+        }
+
+        function getDownloadCount(pack) {
+            const value = Number(pack.download_count);
+            return Number.isSafeInteger(value) && value > 0 ? value : 0;
+        }
+
+        function getTrendingPacks() {
+            return packs
+                .filter(pack => getDownloadCount(pack) > 0)
+                .sort((a, b) => getDownloadCount(b) - getDownloadCount(a))
+                .slice(0, 3);
+        }
+
+        function getPackCreator(pack) {
+            const creatorId = String(pack.created_by || "").trim();
+            if (!creatorId) {
+                return { label: "Creator not recorded", title: "No creator ID was saved for this pack." };
+            }
+            if (String(currentUserId || "").toLowerCase() === creatorId.toLowerCase()) {
+                return { label: "Added by you", title: `Creator UID: ${creatorId}` };
+            }
+            return {
+                label: `Admin UID ${creatorId.slice(0, 8)}…`,
+                title: `Creator UID: ${creatorId}`
+            };
+        }
+
+        function formatPackAddedDate(pack) {
+            const timestamp = Date.parse(pack.created_at || "");
+            if (!Number.isFinite(timestamp)) return "Date not recorded";
+            return new Intl.DateTimeFormat(undefined, {
+                dateStyle: "medium",
+                timeStyle: "short"
+            }).format(new Date(timestamp));
+        }
+
+        function renderAdminInsights() {
+            if (!isAdmin || isPreviewMode) return;
+
+            const publishedPacks = packs.filter(pack => !String(pack.id).startsWith("demo-"));
+            const totalDownloads = publishedPacks.reduce(
+                (total, pack) => total + getDownloadCount(pack),
+                0
+            );
+            const yourPacks = publishedPacks.filter(pack =>
+                String(pack.created_by || "").toLowerCase() === String(currentUserId || "").toLowerCase()
+            ).length;
+
+            adminMetricDownloads.textContent = totalDownloads.toLocaleString();
+            adminMetricPacks.textContent = String(publishedPacks.length);
+            adminMetricYourPacks.textContent = String(yourPacks);
+
+            const leaderboard = [...publishedPacks]
+                .filter(pack => getDownloadCount(pack) > 0)
+                .sort((a, b) => getDownloadCount(b) - getDownloadCount(a))
+                .slice(0, 10);
+            adminInsightsDownloadList.innerHTML = leaderboard.length
+                ? leaderboard.map((pack, index) => {
+                    const creator = getPackCreator(pack);
+                    return `
+                        <li>
+                            <span class="admin-insights-rank">${index === 0 ? "👑" : `#${index + 1}`}</span>
+                            <span class="admin-insights-pack">
+                                <strong>${escapeHTML(pack.title || "Untitled pack")}</strong>
+                                <small title="${escapeHTML(creator.title)}">${escapeHTML(creator.label)}</small>
+                            </span>
+                            <span class="admin-insights-value">${getDownloadCount(pack).toLocaleString()}</span>
+                        </li>`;
+                }).join("")
+                : `<li class="admin-insights-empty">No tracked downloads yet. The leaderboard will fill in after download tracking is configured and packs are downloaded.</li>`;
+
+            const latestPacks = [...publishedPacks]
+                .sort((a, b) => {
+                    const timestampDifference =
+                        Date.parse(b.created_at || "") - Date.parse(a.created_at || "");
+                    return (Number.isFinite(timestampDifference) ? timestampDifference : 0) ||
+                        packs.indexOf(a) - packs.indexOf(b);
+                })
+                .slice(0, 8);
+            adminRecentPacksList.innerHTML = latestPacks.length
+                ? latestPacks.map(pack => {
+                    const creator = getPackCreator(pack);
+                    return `
+                        <li>
+                            <span class="admin-insights-rank">✦</span>
+                            <span class="admin-insights-pack">
+                                <strong>${escapeHTML(pack.title || "Untitled pack")}</strong>
+                                <small title="${escapeHTML(creator.title)}">${escapeHTML(creator.label)} · ${escapeHTML(formatPackAddedDate(pack))}</small>
+                            </span>
+                            <span class="admin-insights-value">${escapeHTML(pack.resolution || "Pack")}</span>
+                        </li>`;
+                }).join("")
+                : `<li class="admin-insights-empty">No published packs yet.</li>`;
+        }
+
+        function renderAdminDownloadStats() {
+            if (!adminDownloadStats) return;
+            adminDownloadStats.hidden = !(isAdmin && !isPreviewMode);
+            if (adminDownloadStats.hidden) return;
+
+            const topPacks = [...packs]
+                .filter(pack => getDownloadCount(pack) > 0)
+                .sort((a, b) => getDownloadCount(b) - getDownloadCount(a))
+                .slice(0, 3);
+
+            adminDownloadList.innerHTML = topPacks.length
+                ? topPacks.map((pack, index) => `
+                    <li>
+                        <span class="admin-download-rank">${index === 0 ? "👑" : `#${index + 1}`}</span>
+                        <span class="admin-download-name">${escapeHTML(pack.title || "Untitled pack")}</span>
+                        <span class="admin-download-count">${getDownloadCount(pack).toLocaleString()} downloads</span>
+                    </li>
+                `).join("")
+                : `<li><span class="admin-download-name">No downloads tracked yet.</span></li>`;
+        }
+
+        function formatFileSize(value) {
+            const bytes = Number(value);
+            if (!Number.isFinite(bytes) || bytes < 0) return "Not recorded";
+            if (bytes < 1024) return `${bytes} B`;
+
+            const units = ["KB", "MB", "GB"];
+            let size = bytes / 1024;
+            let unitIndex = 0;
+            while (size >= 1024 && unitIndex < units.length - 1) {
+                size /= 1024;
+                unitIndex += 1;
+            }
+            return `${size.toFixed(1)} ${units[unitIndex]}`;
+        }
+
+        function revokePackImagePreviewUrl() {
+            if (packImagePreviewObjectUrl) {
+                URL.revokeObjectURL(packImagePreviewObjectUrl);
+                packImagePreviewObjectUrl = null;
+            }
+        }
+
+        function showPackImagePreview(source, label, isObjectUrl = false) {
+            revokePackImagePreviewUrl();
+            if (!source) {
+                packImagePreview.hidden = true;
+                packImagePreviewImage.removeAttribute("src");
+                packImagePreviewName.textContent = "";
+                return;
+            }
+
+            if (isObjectUrl) packImagePreviewObjectUrl = source;
+            packImagePreviewImage.src = source;
+            packImagePreviewName.textContent = label;
+            packImagePreview.hidden = false;
+        }
+
+        function updatePackImagePreview(file) {
+            if (file) {
+                showPackImagePreview(
+                    URL.createObjectURL(file),
+                    `${file.name} · ${formatFileSize(file.size)}`,
+                    true
+                );
+            } else if (editingPackImageUrl) {
+                showPackImagePreview(editingPackImageUrl, "Current preview; no replacement selected.");
+            } else {
+                showPackImagePreview(null, "");
+            }
+        }
+
+        function setPreviewMode(enabled) {
+            isPreviewMode = isAdmin && enabled;
+            updateAdminVisibility();
+            renderPacks();
+
+            if (!isPreviewMode && isAdmin) {
+                adminPanel.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        }
+
+        function filteredPacks() {
+            const query = searchInput.value.trim().toLowerCase();
+            const trendingIds = activeFilter === "trending"
+                ? new Set(getTrendingPacks().map(pack => String(pack.id)))
+                : null;
+
+            const visible = packs.filter(pack => {
+                const matchesFilter = activeFilter === "all" ||
+                    (activeFilter === "favorites"
+                        ? favorites.has(String(pack.id))
+                        : activeFilter === "trending"
+                            ? trendingIds.has(String(pack.id))
+                            : getPackType(pack) === activeFilter);
+
+                const matchesSearch =
+                    !query ||
+                    [pack.title, pack.description, pack.version, pack.resolution, pack.badge, getPackTypeLabel(pack)]
+                        .some(value => String(value || "").toLowerCase().includes(query));
+
+                return matchesFilter && matchesSearch;
+            });
+
+            if (activeFilter === "trending") {
+                return visible.sort((a, b) => getDownloadCount(b) - getDownloadCount(a));
+            }
+
+            if (activeSort === "title") {
+                return visible.sort((a, b) =>
+                    String(a.title || "").localeCompare(String(b.title || ""), undefined, {
+                        sensitivity: "base",
+                        numeric: true
+                    }));
+            }
+
+            return visible.sort((a, b) => {
+                const dateA = Date.parse(a.created_at || "");
+                const dateB = Date.parse(b.created_at || "");
+                const validA = Number.isFinite(dateA);
+                const validB = Number.isFinite(dateB);
+                if (validA && validB) return dateB - dateA;
+                if (validA !== validB) return validA ? -1 : 1;
+                return packs.indexOf(a) - packs.indexOf(b);
+            });
+        }
+
+        function renderPacks() {
+            if (!packsReady) {
+                count.parentElement.hidden = true;
+                grid.innerHTML = `<div class="empty-state" role="status">Loading packs...</div>`;
+                return;
+            }
+
+            count.parentElement.hidden = false;
+            updateFavoriteCount();
+            renderAdminDownloadStats();
+            renderAdminInsights();
+            if (packLoadError) {
+                count.textContent = "Collection unavailable";
+                grid.innerHTML = `
+                    <div class="empty-state" role="alert">
+                        <p>Could not load the collection: ${escapeHTML(packLoadError)}</p>
+                        <button class="secondary-btn" type="button" data-retry-packs>Try again</button>
+                    </div>`;
+                grid.querySelector("[data-retry-packs]").addEventListener("click", loadPacks);
+                return;
+            }
+
+            const visible = filteredPacks();
+            count.textContent = `${visible.length} ${visible.length === 1 ? "pack" : "packs"}`;
+
+            if (!visible.length) {
+                if (activeFilter === "favorites") {
+                    grid.innerHTML = `<div class="empty-state">Your Vault is empty. Tap a heart on any pack to save it here.</div>`;
+                } else if (activeFilter === "trending") {
+                    const hasTrendingPacks = getTrendingPacks().length > 0;
+                    grid.innerHTML = `
+                        <div class="empty-state trending-empty-state">
+                            <p>${hasTrendingPacks
+                                ? "No trending packs match your search."
+                                : "No trending packs yet. This list fills in after download tracking is configured and packs are downloaded."}</p>
+                            <button class="secondary-btn" type="button" data-show-all-packs>Browse all packs</button>
+                        </div>`;
+                    grid.querySelector("[data-show-all-packs]").addEventListener("click", () => setFilter("all"));
+                } else {
+                    grid.innerHTML = `<div class="empty-state">No packs found. Try another search or filter.</div>`;
+                }
+                return;
+            }
+
+            const trendingRanks = new Map(
+                getTrendingPacks().map((pack, index) => [String(pack.id), index + 1])
+            );
+            grid.innerHTML = visible.map(pack => {
+                const title = escapeHTML(pack.title);
+                const description = escapeHTML(pack.description);
+                const version = escapeHTML(pack.version);
+                const badge = escapeHTML(pack.badge || "TEXTURE PACK");
+                const resolution = escapeHTML(pack.resolution || "PvP");
+                const coverClass = getCoverClass(pack);
+                const coverTitle = getCoverTitle(pack);
+                const isDemo = String(pack.id).startsWith("demo-");
+                const fileSize = pack.file_size !== null && pack.file_size !== undefined &&
+                    pack.file_size !== "" && Number.isFinite(Number(pack.file_size)) && Number(pack.file_size) >= 0
+                    ? `<span class="pack-file-size">${escapeHTML(formatFileSize(pack.file_size))}</span>`
+                    : "";
+                const isFavorite = favorites.has(String(pack.id));
+                const trendingRank = trendingRanks.get(String(pack.id));
+
+                return `
+          <article class="pack-card" data-id="${escapeHTML(pack.id)}" tabindex="0"
+              aria-label="View details for ${title}" aria-haspopup="dialog">
+            <div class="pack-cover ${coverClass}">
+              ${pack.image_url ? `<img class="cover-image" src="${escapeHTML(pack.image_url)}" alt="" loading="lazy">` : ""}
+              <span class="cover-tag">${badge}</span>
+              ${trendingRank ? `<span class="trending-tag">🔥 TRENDING #${trendingRank}</span>` : ""}
+              <button class="favorite-btn ${isFavorite ? "is-favorite" : ""}" type="button"
+                  data-favorite="${escapeHTML(pack.id)}"
+                  aria-label="${isFavorite ? "Remove" : "Save"} ${title} ${isFavorite ? "from" : "to"} your Vault"
+                  aria-pressed="${isFavorite}" title="${isFavorite ? "Remove from" : "Save to"} your Vault">♥</button>
+              <div class="cover-placeholder">
+                <div class="cover-mini">BEST TXT COLLECTION</div>
+                <div class="cover-title">${coverTitle}</div>
+              </div>
+            </div>
+            <div class="pack-content">
+              <div class="pack-topline">
+                <h3>${title}</h3>
+                <span class="resolution">${resolution}</span>
+              </div>
+              <p class="pack-description">${description}</p>
+              <div class="pack-footer">
+                <span class="mc-version">${version}${fileSize ? `<br>${fileSize}` : ""}</span>
+                <button class="download-btn" data-download="${escapeHTML(pack.id)}"
+                  ${!pack.file_path ? "disabled title='Upload this pack to enable downloads'" : ""}>
+                  Download <span>↗</span>
+                </button>
+              </div>
+            </div>
+            ${isAdmin && !isPreviewMode && !isDemo ? `
+              <div class="admin-card-actions">
+                <button class="secondary-btn edit-btn" data-edit="${escapeHTML(pack.id)}">EDIT PACK</button>
+                <button class="delete-btn" data-delete="${escapeHTML(pack.id)}">DELETE PACK</button>
+              </div>` : ""}
+          </article>`;
+            }).join("");
+
+            grid.querySelectorAll("[data-download]").forEach(button => {
+                button.addEventListener("click", () => downloadPack(button.dataset.download));
+            });
+
+            grid.querySelectorAll("[data-favorite]").forEach(button => {
+                button.addEventListener("click", () => toggleFavorite(button.dataset.favorite));
+            });
+
+            grid.querySelectorAll("[data-delete]").forEach(button => {
+                button.addEventListener("click", () => deletePack(button.dataset.delete, button));
+            });
+
+            grid.querySelectorAll("[data-edit]").forEach(button => {
+                button.addEventListener("click", () => startPackEdit(button.dataset.edit));
+            });
+        }
+
+        function startPackEdit(packId) {
+            if (!isAdmin || isPreviewMode) return;
+
+            const pack = packs.find(item => String(item.id) === String(packId));
+            if (!pack || String(pack.id).startsWith("demo-")) return;
+
+            const form = document.getElementById("addPackForm");
+            form.reset();
+            editingPackId = pack.id;
+            document.getElementById("packTitle").value = pack.title || "";
+            const resolutionSelect = document.getElementById("packResolution");
+            const resolution = pack.resolution || "16x";
+            if (![...resolutionSelect.options].some(option => option.value === resolution)) {
+                const legacyOption = document.createElement("option");
+                legacyOption.value = resolution;
+                legacyOption.dataset.legacyResolution = "true";
+                legacyOption.textContent = `${resolution} (existing)`;
+                resolutionSelect.appendChild(legacyOption);
+            }
+            resolutionSelect.value = resolution;
+            document.getElementById("packType").value = getPackType(pack);
+            document.getElementById("packVersion").value = pack.version || pack.mc_version || "";
+            document.getElementById("packBadge").value = pack.badge || "";
+            document.getElementById("packDescription").value = pack.description || "";
+            editingPackImageUrl = pack.image_url || null;
+            updatePackImagePreview(null);
+
+            const fileInput = document.getElementById("packFile");
+            fileInput.required = false;
+            document.getElementById("packFileLabel").textContent =
+                "Replace TXT file (.zip, optional)";
+            document.getElementById("packImageLabel").textContent =
+                "Replace preview image (optional)";
+            document.getElementById("addPackBtn").textContent = "Save changes";
+            document.getElementById("cancelPackEdit").hidden = false;
+            setAdminStatus(`Editing "${pack.title}". Leave files empty to keep the current uploads.`);
+            form.scrollIntoView({ behavior: "smooth", block: "center" });
+            document.getElementById("packTitle").focus({ preventScroll: true });
+        }
+
+        function cancelPackEdit() {
+            editingPackId = null;
+            editingPackImageUrl = null;
+            document.getElementById("addPackForm").reset();
+            updatePackImagePreview(null);
+            document.querySelectorAll("[data-legacy-resolution]").forEach(option => option.remove());
+            document.getElementById("packFile").required = true;
+            document.getElementById("packFileLabel").textContent = "TXT file (.zip)";
+            document.getElementById("packImageLabel").textContent = "Preview image (optional)";
+            document.getElementById("addPackBtn").textContent = "＋ Add TXT pack";
+            document.getElementById("cancelPackEdit").hidden = true;
+            setAdminStatus("");
+        }
+
+        function renderPackDetails(pack) {
+            const cover = document.getElementById("packDetailsCover");
+            const image = document.getElementById("packDetailsImage");
+            cover.className = `pack-cover pack-details-cover ${getCoverClass(pack)}`;
+            setPackDetailsImageOnly(false);
+            image.hidden = !pack.image_url;
+            image.alt = "";
+            if (pack.image_url) image.src = pack.image_url;
+            else image.removeAttribute("src");
+
+            document.getElementById("packDetailsCoverTag").textContent =
+                pack.badge || "TEXTURE PACK";
+            document.getElementById("packDetailsCoverTitle").innerHTML = getCoverTitle(pack);
+            document.getElementById("packDetailsTitle").textContent = pack.title || "Texture pack";
+            document.getElementById("packDetailsBadge").textContent = pack.badge || "Not specified";
+            document.getElementById("packDetailsResolution").textContent = pack.resolution || "PvP";
+            document.getElementById("packDetailsDescription").textContent =
+                pack.description || "No description provided.";
+            document.getElementById("packDetailsVersion").textContent =
+                pack.version || pack.mc_version || "Not specified";
+            document.getElementById("packDetailsCategory").textContent =
+                getPackTypeLabel(pack);
+            document.getElementById("packDetailsFileSize").textContent =
+                formatFileSize(pack.file_size);
+            updateFavoriteButton(packDetailsFavorite, pack);
+
+            packDetailsDownload.disabled = !pack.file_path;
+            packDetailsDownload.title = pack.file_path
+                ? "Download this pack"
+                : "This pack has no download file yet";
+            packDetailsDownload.onclick = () => {
+                if (pack.file_path) downloadPack(pack.id, packDetailsDownload);
+            };
+        }
+
+        function openPackDetails(packId, card) {
+            const pack = packs.find(item => String(item.id) === String(packId));
+            if (!pack) return;
+
+            lastFocusedPackCard = card;
+            activePackDetailsId = pack.id;
+            previousBodyOverflow = document.body.style.overflow;
+            renderPackDetails(pack);
+
+            packDetailsModal.classList.add("open");
+            packDetailsModal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+            document.getElementById("closePackDetails").focus();
+        }
+
+        function setPackDetailsImageOnly(imageOnly) {
+            packDetailsImageOnly = imageOnly;
+            document.getElementById("packDetailsCover")
+                .classList.toggle("is-image-only", imageOnly);
+            const label = imageOnly ? "Show cover with text" : "View image without cover text";
+            [packDetailsImageLeft, packDetailsImageRight].forEach(button => {
+                button.setAttribute("aria-label", label);
+                button.setAttribute("aria-pressed", String(imageOnly));
+            });
+        }
+
+        function togglePackDetailsImage() {
+            setPackDetailsImageOnly(!packDetailsImageOnly);
+        }
+
+        function closePackDetails() {
+            packDetailsModal.classList.remove("open");
+            packDetailsModal.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = previousBodyOverflow;
+            if (lastFocusedPackCard?.isConnected) lastFocusedPackCard.focus();
+            lastFocusedPackCard = null;
+            activePackDetailsId = null;
+        }
+
+        grid.addEventListener("click", event => {
+            if (event.target.closest("button, a, input, select, textarea")) return;
+            const card = event.target.closest(".pack-card");
+            if (card) openPackDetails(card.dataset.id, card);
+        });
+
+        grid.addEventListener("keydown", event => {
+            const card = event.target.closest(".pack-card");
+            if (!card || event.target !== card || !["Enter", " "].includes(event.key)) return;
+            event.preventDefault();
+            openPackDetails(card.dataset.id, card);
+        });
+
+        document.getElementById("closePackDetails").addEventListener("click", closePackDetails);
+        packDetailsImageLeft.addEventListener("click", togglePackDetailsImage);
+        packDetailsImageRight.addEventListener("click", togglePackDetailsImage);
+        packDetailsFavorite.addEventListener("click", () => {
+            if (activePackDetailsId !== null) toggleFavorite(activePackDetailsId);
+        });
+        packDetailsModal.addEventListener("click", event => {
+            if (event.target === packDetailsModal) closePackDetails();
+        });
+        document.addEventListener("keydown", event => {
+            if (!packDetailsModal.classList.contains("open")) return;
+            if (event.key === "Escape") closePackDetails();
+            if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+                togglePackDetailsImage();
+            }
+        });
+
+        let discoverIndex = 0;
+
+        function getDiscoverPacks() {
+            return filteredPacks();
+        }
+
+        function renderDiscover() {
+            const items = getDiscoverPacks();
+            const background = document.getElementById("discoverBackground");
+            const glow = document.getElementById("discoverGlow");
+            const title = document.getElementById("discoverTitle");
+            const download = document.getElementById("discoverDownload");
+            const details = document.getElementById("discoverDetails");
+            const previous = document.getElementById("discoverPrevious");
+            const next = document.getElementById("discoverNext");
+            const thumbnails = document.getElementById("discoverThumbnails");
+
+            if (!packsReady) {
+                title.textContent = "LOADING COLLECTION";
+                document.getElementById("discoverDescription").textContent =
+                    "Loading texture packs...";
+                document.getElementById("discoverBadge").textContent = "PLEASE WAIT";
+                document.getElementById("discoverVersion").textContent = "";
+                document.getElementById("discoverNumber").textContent = "-- / --";
+                document.getElementById("discoverCounter").textContent = "-- — --";
+                thumbnails.innerHTML = "";
+                download.disabled = true;
+                download.onclick = null;
+                details.disabled = true;
+                details.onclick = null;
+                previous.disabled = true;
+                next.disabled = true;
+                background.style.backgroundImage =
+                    "linear-gradient(120deg, #101827, #090b12)";
+                background.classList.remove("has-image");
+                return;
+            }
+
+            if (!items.length) {
+                title.textContent = packLoadError ? "COLLECTION UNAVAILABLE" : "NO PACKS FOUND";
+                document.getElementById("discoverDescription").textContent =
+                    packLoadError
+                        ? "Could not load the collection. Go back and try again."
+                        : "Try changing your search or filters.";
+                document.getElementById("discoverBadge").textContent =
+                    packLoadError ? "LOAD ERROR" : "COLLECTION";
+                document.getElementById("discoverVersion").textContent = "";
+                document.getElementById("discoverNumber").textContent = "00 / 00";
+                document.getElementById("discoverCounter").textContent = "00 — 00";
+                thumbnails.innerHTML = "";
+                download.disabled = true;
+                download.onclick = null;
+                details.disabled = true;
+                details.onclick = null;
+                previous.disabled = true;
+                next.disabled = true;
+                background.style.backgroundImage =
+                    "linear-gradient(120deg, #101827, #090b12)";
+                background.classList.remove("has-image");
+                return;
+            }
+
+            discoverIndex = Math.max(0, Math.min(discoverIndex, items.length - 1));
+            details.disabled = false;
+            previous.disabled = false;
+            next.disabled = false;
+
+            const pack = items[discoverIndex];
+            const titleParts = (pack.title || "TEXTURE PACK").trim().split(/\s+/);
+            const lastPart = titleParts.pop();
+            const firstPart = titleParts.join(" ");
+
+            title.innerHTML = firstPart
+                ? `${escapeHTML(firstPart)} <span>${escapeHTML(lastPart)}</span>`
+                : `<span>${escapeHTML(lastPart)}</span>`;
+
+            document.getElementById("discoverBadge").textContent =
+                (pack.badge || "FEATURED PACK").toUpperCase();
+            document.getElementById("discoverDescription").textContent =
+                pack.description || "";
+            document.getElementById("discoverVersion").textContent =
+                (pack.version || pack.mc_version || "Minecraft version not specified").toUpperCase();
+
+            const number = String(discoverIndex + 1).padStart(2, "0");
+            const total = String(items.length).padStart(2, "0");
+            document.getElementById("discoverNumber").textContent = `${number} / ${total}`;
+            document.getElementById("discoverCounter").textContent = `${number} — ${total}`;
+
+            const colors = {
+                red: "#397bd0",
+                purple: "#9872c9",
+                blue: "#3974c5",
+                gold: "#c18b3b"
+            };
+            const cover = getCoverClass(pack);
+            const color = cover.includes("gold") ? colors.gold :
+                cover.includes("purple") ? colors.purple :
+                cover.includes("blue") ? colors.blue : colors.red;
+
+            glow.style.background = color;
+
+            if (pack.image_url) {
+                background.style.backgroundImage =
+                    `url("${pack.image_url}")`;
+                background.classList.add("has-image");
+            } else {
+                background.style.backgroundImage =
+                    `radial-gradient(ellipse at 70% 40%, ${color}55 0%, transparent 48%), linear-gradient(120deg, #101827, #090b12)`;
+                background.classList.remove("has-image");
+            }
+
+            download.disabled = !pack.file_path;
+            download.onclick = () => {
+                if (pack.file_path) downloadPack(pack.id);
+            };
+            details.onclick = openDiscoverPackDetails;
+
+            thumbnails.innerHTML = items.map((item, index) => `
+                <button class="discover-thumb ${index === discoverIndex ? "active" : ""}"
+                        data-discover-index="${index}">
+                    <div class="thumb-preview"></div>
+                    <div class="thumb-info">
+                        <strong>${escapeHTML(item.title)}</strong>
+                        <small>${escapeHTML(item.resolution || "PvP")}</small>
+                    </div>
+                </button>
+            `).join("");
+
+            thumbnails.querySelectorAll("[data-discover-index]").forEach(button => {
+                const index = Number(button.dataset.discoverIndex);
+                const item = items[index];
+                const preview = button.querySelector(".thumb-preview");
+
+                if (item.image_url) {
+                    preview.style.backgroundImage = `url("${item.image_url}")`;
+                } else {
+                    preview.style.backgroundImage =
+                        "linear-gradient(135deg, #182c49, #304b72)";
+                }
+
+                button.addEventListener("click", () => {
+                    discoverIndex = index;
+                    renderDiscover();
+                });
+            });
+        }
+
+        function changeDiscover(direction) {
+            const items = getDiscoverPacks();
+            if (!items.length) return;
+
+            discoverIndex = (discoverIndex + direction + items.length) % items.length;
+            renderDiscover();
+        }
+
+        function openDiscoverPackDetails() {
+            const pack = getDiscoverPacks()[discoverIndex];
+            if (!pack) return;
+
+            const card = Array.from(grid.querySelectorAll(".pack-card")).find(item =>
+                String(item.dataset.id) === String(pack.id));
+            closeDiscover();
+            openPackDetails(pack.id, card || null);
+        }
+
+        function openDiscover() {
+            discoverIndex = 0;
+            viewMode = "discover";
+            document.getElementById("discoverScreen").classList.add("active");
+            document.body.style.overflow = "hidden";
+            document.getElementById("gridMode").classList.remove("active");
+            document.getElementById("discoverMode").classList.add("active");
+            renderDiscover();
+        }
+
+        function closeDiscover() {
+            viewMode = "grid";
+            document.getElementById("discoverScreen").classList.remove("active");
+            document.body.style.overflow = "";
+            document.getElementById("gridMode").classList.add("active");
+            document.getElementById("discoverMode").classList.remove("active");
+        }
+
+        function setFilter(filter) {
+            activeFilter = filter;
+            mobileFilter.value = filter;
+            document.querySelectorAll(".filter-btn").forEach(button => {
+                button.classList.toggle("active", button.dataset.filter === filter);
+            });
+            renderPacks();
+            grid.scrollTo({ left: 0, behavior: "smooth" });
+
+            if (viewMode === "discover") {
+                discoverIndex = 0;
+                renderDiscover();
+            }
+        }
+
+        function setView(mode) {
+            if (mode === "discover") {
+                openDiscover();
+            } else {
+                closeDiscover();
+            }
+        }
+
+        filterNav.addEventListener("click", event => {
+            const button = event.target.closest(".filter-btn");
+            if (button && filterNav.contains(button)) setFilter(button.dataset.filter);
+        });
+
+        mobileFilter.addEventListener("change", () => setFilter(mobileFilter.value));
+        sortPacks.addEventListener("change", () => {
+            activeSort = sortPacks.value;
+            renderPacks();
+            if (viewMode === "discover") {
+                discoverIndex = 0;
+                renderDiscover();
+            }
+        });
+
+        document.getElementById("gridMode").addEventListener("click", () => setView("grid"));
+        document.getElementById("discoverMode").addEventListener("click", () => setView("discover"));
+        document.getElementById("backToGrid").addEventListener("click", closeDiscover);
+        document.getElementById("discoverPrevious").addEventListener("click", () => changeDiscover(-1));
+        document.getElementById("discoverNext").addEventListener("click", () => changeDiscover(1));
+
+        document.addEventListener("keydown", event => {
+            if (!document.getElementById("discoverScreen").classList.contains("active")) return;
+            if (event.key === "Escape") closeDiscover();
+            if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+                changeDiscover(event.key === "ArrowLeft" ? -1 : 1);
+            }
+        });
+
+        searchInput.addEventListener("input", () => {
+            renderPacks();
+            if (viewMode === "discover") {
+                discoverIndex = 0;
+                renderDiscover();
+            }
+        });
+
+        packImageInput.addEventListener("change", () => {
+            updatePackImagePreview(packImageInput.files[0] || null);
+        });
+
+        document.getElementById("focusSearch").addEventListener("click", () => {
+            closeDiscover();
+            searchInput.focus();
+            searchInput.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+
+        async function loadPacks() {
+            if (!db) {
+                packLoadError = null;
+                packsReady = true;
+                renderPacks();
+                return;
+            }
+
+            packLoadError = null;
+            packsReady = false;
+            renderPacks();
+            const { data, error } = await db
+                .from("txt_packs")
+                .select("*")
+                .eq("published", true)
+                .order("created_at", { ascending: false });
+
+            if (error) {
+                console.error("Could not load packs:", error.message);
+                packLoadError = error.message;
+                packs = [];
+                packsReady = true;
+                renderPacks();
+                if (viewMode === "discover") {
+                    discoverIndex = 0;
+                    renderDiscover();
+                }
+                return;
+            }
+
+            const databasePacks = await Promise.all((data || []).map(async pack => {
+                let image_url = null;
+                if (pack.image_path) {
+                    const { data: imageData } = await db.storage
+                        .from(BUCKET)
+                        .createSignedUrl(pack.image_path, 3600);
+                    image_url = imageData?.signedUrl || null;
+                }
+                return { ...pack, image_url };
+            }));
+
+            // Show database packs when present; otherwise keep preview cards.
+            packs = databasePacks.length ? databasePacks : [...demoPacks];
+            packLoadError = null;
+            packsReady = true;
+            renderPacks();
+            if (viewMode === "discover") renderDiscover();
+        }
+
+        async function downloadPack(packId, sourceButton = null) {
+            if (!db) {
+                alert("Downloads will be available after Supabase is configured and real TXT files are uploaded.");
+                return;
+            }
+
+            const pack = packs.find(item => String(item.id) === String(packId));
+            if (!pack || !pack.file_path) return;
+
+            const button = sourceButton ||
+                grid.querySelector(`[data-download="${CSS.escape(String(packId))}"]`);
+            if (button) {
+                button.disabled = true;
+                button.textContent = "Preparing...";
+            }
+
+            try {
+                let signedUrl;
+                let downloadCount = null;
+                const isLocalPreview = window.location.protocol === "file:" ||
+                    ["localhost", "127.0.0.1"].includes(window.location.hostname);
+
+                if (isLocalPreview) {
+                    const { data, error } = await db.storage
+                        .from(BUCKET)
+                        .createSignedUrl(pack.file_path, 60, { download: `${pack.title}.zip` });
+                    if (error) throw error;
+                    signedUrl = data?.signedUrl;
+                    showToast("Local preview download; it won’t affect Trending.");
+                } else {
+                    const response = await fetch("/api/download", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ packId: String(packId) })
+                    });
+                    const result = await response.json();
+                    if (!response.ok) {
+                        throw new Error(result.error || "Could not prepare this download.");
+                    }
+                    signedUrl = result.signedUrl;
+                    downloadCount = Number(result.downloadCount);
+                }
+
+                if (!signedUrl) throw new Error("The download link was empty. Please try again.");
+
+                const previousDiscoverPackId = viewMode === "discover"
+                    ? getDiscoverPacks()[discoverIndex]?.id
+                    : null;
+                if (Number.isSafeInteger(downloadCount) && downloadCount >= 0) {
+                    pack.download_count = downloadCount;
+                    renderPacks();
+                    if (viewMode === "discover") {
+                        const nextIndex = getDiscoverPacks().findIndex(item =>
+                            String(item.id) === String(previousDiscoverPackId));
+                        if (nextIndex >= 0) discoverIndex = nextIndex;
+                        renderDiscover();
+                    }
+                }
+
+                window.location.assign(signedUrl);
+            } catch (error) {
+                console.error("Could not prepare the download:", error);
+                alert(error.message || "Could not prepare the download. Please try again.");
+            } finally {
+                if (button?.isConnected) {
+                    button.disabled = false;
+                    button.innerHTML = 'Download <span>↗</span>';
+                }
+            }
+        }
+
+        async function verifyAdmin(userId) {
+            if (!db || !userId) {
+                return { allowed: false, error: "Supabase is not configured or the user is missing." };
+            }
+
+            const { data, error } = await db
+                .from("admin_users")
+                .select("user_id")
+                .eq("user_id", userId)
+                .maybeSingle();
+
+            if (error) {
+                console.error("Admin verification failed:", error.message);
+                return { allowed: false, error: error.message };
+            }
+            return { allowed: !!data, error: null };
+        }
+
+        async function refreshAdminState() {
+            if (!db) return;
+
+            const { data, error: sessionError } = await db.auth.getSession();
+            if (sessionError) {
+                console.error("Could not restore the Supabase session:", sessionError.message);
+                return;
+            }
+            const user = data?.session?.user;
+            const adminCheck = user
+                ? await verifyAdmin(user.id)
+                : { allowed: false, error: null };
+            isAdmin = adminCheck.allowed;
+            currentUserId = isAdmin ? user.id : null;
+            if (!isAdmin) isPreviewMode = false;
+            updateAdminVisibility();
+            renderPacks();
+        }
+
+        document.getElementById("adminOpen").addEventListener("click", () => {
+            if (isAdmin) {
+                if (isPreviewMode) setPreviewMode(false);
+                adminPanel.scrollIntoView({ behavior: "smooth", block: "center" });
+            } else {
+                document.getElementById("loginModal").classList.add("open");
+                document.getElementById("loginStatus").textContent = "";
+            }
+        });
+
+        previewToggle.addEventListener("click", () => setPreviewMode(true));
+        previewExit.addEventListener("click", () => setPreviewMode(false));
+
+        document.getElementById("closeLogin").addEventListener("click", () => {
+            document.getElementById("loginModal").classList.remove("open");
+        });
+
+        document.getElementById("loginModal").addEventListener("click", event => {
+            if (event.target.id === "loginModal") {
+                event.currentTarget.classList.remove("open");
+            }
+        });
+
+        document.getElementById("loginForm").addEventListener("submit", async event => {
+            event.preventDefault();
+            const status = document.getElementById("loginStatus");
+            const button = document.getElementById("loginBtn");
+
+            if (!db) {
+                status.textContent = "Add your Supabase URL and publishable key in the code first.";
+                return;
+            }
+
+            button.disabled = true;
+            status.textContent = "Signing in...";
+
+            const email = document.getElementById("emailInput").value.trim();
+            const password = document.getElementById("passwordInput").value.trim();
+
+            const { data, error } = await db.auth.signInWithPassword({ email, password });
+
+            if (error) {
+                status.textContent = `Login failed: ${error.message}`;
+                button.disabled = false;
+                return;
+            }
+
+            const adminCheck = await verifyAdmin(data.user.id);
+
+            if (!adminCheck.allowed) {
+                const { error: signOutError } = await db.auth.signOut();
+                if (signOutError) {
+                    console.error("Could not end the non-admin session:", signOutError.message);
+                }
+                status.textContent = adminCheck.error
+                    ? `Login succeeded, but admin access could not be checked: ${adminCheck.error}`
+                    : `Login succeeded, but this user is not in public.admin_users. Signed-in UID: ${data.user.id}`;
+                button.disabled = false;
+                return;
+            }
+
+            isAdmin = true;
+            isPreviewMode = false;
+            currentUserId = data.user.id;
+            updateAdminVisibility();
+            document.getElementById("loginModal").classList.remove("open");
+            document.getElementById("loginForm").reset();
+            button.disabled = false;
+            renderPacks();
+            adminPanel.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+
+        document.getElementById("logoutBtn").addEventListener("click", async event => {
+            const button = event.currentTarget;
+            if (!db) {
+                setAdminStatus("Supabase is not configured, so you cannot log out here.", "error");
+                return;
+            }
+
+            button.disabled = true;
+            const { error } = await db.auth.signOut();
+            if (error) {
+                console.error("Could not log out:", error.message);
+                setAdminStatus("Could not log out. Please try again.", "error");
+                button.disabled = false;
+                return;
+            }
+
+            isAdmin = false;
+            isPreviewMode = false;
+            currentUserId = null;
+            cancelPackEdit();
+            updateAdminVisibility();
+            renderPacks();
+            button.disabled = false;
+        });
+
+        document.getElementById("addPackForm").addEventListener("submit", async event => {
+            event.preventDefault();
+
+            if (!db || !isAdmin || !currentUserId) {
+                setAdminStatus("You must be logged in as an administrator.", "error");
+                return;
+            }
+
+            const editingPack = editingPackId
+                ? packs.find(item => String(item.id) === String(editingPackId))
+                : null;
+            if (editingPackId && !editingPack) {
+                setAdminStatus("This pack is no longer available. Reload the collection and try again.", "error");
+                return;
+            }
+
+            const addButton = document.getElementById("addPackBtn");
+            addButton.disabled = true;
+            document.getElementById("cancelPackEdit").disabled = true;
+            setAdminStatus(editingPack ? "Saving pack changes..." : "Uploading files...");
+
+            let uploadedFilePath = null;
+            let uploadedImagePath = null;
+            let databaseSaved = false;
+
+            try {
+                const title = document.getElementById("packTitle").value.trim();
+                const resolution = document.getElementById("packResolution").value;
+                const packType = document.getElementById("packType").value;
+                const version = document.getElementById("packVersion").value.trim();
+                const badge = document.getElementById("packBadge").value.trim() || "NEW";
+                const description = document.getElementById("packDescription").value.trim();
+                const zipFile = document.getElementById("packFile").files[0];
+                const imageFile = document.getElementById("packImage").files[0];
+
+                if (!editingPack && !zipFile) {
+                    throw new Error("Please choose a ZIP file.");
+                }
+                if (zipFile && !zipFile.name.toLowerCase().endsWith(".zip")) {
+                    throw new Error("Please choose a ZIP file.");
+                }
+                if (zipFile && zipFile.size > 100 * 1024 * 1024) {
+                    throw new Error("ZIP files must be smaller than 100 MB.");
+                }
+                if (imageFile && imageFile.size > 5 * 1024 * 1024) {
+                    throw new Error("Preview images must be smaller than 5 MB.");
+                }
+                if (imageFile && !["image/png", "image/jpeg", "image/webp"].includes(imageFile.type)) {
+                    throw new Error("Preview image must be PNG, JPG or WebP.");
+                }
+
+                const unique = crypto.randomUUID();
+                if (zipFile) uploadedFilePath = `${currentUserId}/${unique}.zip`;
+
+                if (zipFile) {
+                    const { error: fileError } = await db.storage
+                        .from(BUCKET)
+                        .upload(uploadedFilePath, zipFile, {
+                            contentType: "application/zip",
+                            upsert: false
+                        });
+
+                    if (fileError) throw fileError;
+                }
+
+                if (imageFile) {
+                    const imageExtension = imageFile.type === "image/png" ? "png" :
+                        imageFile.type === "image/webp" ? "webp" : "jpg";
+                    uploadedImagePath = `${currentUserId}/${unique}.${imageExtension}`;
+
+                    const { error: imageError } = await db.storage
+                        .from(BUCKET)
+                        .upload(uploadedImagePath, imageFile, {
+                            contentType: imageFile.type,
+                            upsert: false
+                        });
+
+                    if (imageError) throw imageError;
+                }
+
+                const packValues = {
+                    title,
+                    description,
+                    resolution,
+                    category: packType,
+                    mc_version: version,
+                    badge,
+                    file_path: uploadedFilePath || editingPack?.file_path,
+                    image_path: uploadedImagePath || editingPack?.image_path
+                };
+                if (zipFile) packValues.file_size = zipFile.size;
+
+                let cleanupWarning = false;
+
+                if (editingPack) {
+                    const { data: updatedPack, error: updateError } = await db
+                        .from("txt_packs")
+                        .update(packValues)
+                        .eq("id", editingPack.id)
+                        .select("id")
+                        .maybeSingle();
+
+                    if (updateError) throw updateError;
+                    if (!updatedPack) {
+                        throw new Error("Pack was not updated. Check that the admin UPDATE policy is enabled.");
+                    }
+                    databaseSaved = true;
+
+                    const oldPaths = [
+                        zipFile ? editingPack.file_path : null,
+                        imageFile ? editingPack.image_path : null
+                    ].filter(Boolean);
+
+                    if (oldPaths.length) {
+                        const { error: cleanupError } = await db.storage.from(BUCKET).remove(oldPaths);
+                        if (cleanupError) {
+                            console.error("Pack updated, but old file cleanup failed:", cleanupError);
+                            cleanupWarning = true;
+                        }
+                    }
+
+                    cancelPackEdit();
+                } else {
+                    const { error: insertError } = await db.from("txt_packs").insert({
+                        ...packValues,
+                        created_by: currentUserId,
+                        published: true
+                    });
+
+                    if (insertError) throw insertError;
+                    databaseSaved = true;
+                    document.getElementById("addPackForm").reset();
+                    editingPackImageUrl = null;
+                    updatePackImagePreview(null);
+                }
+
+                await loadPacks();
+                const saveMessage = editingPack
+                    ? "Pack updated successfully."
+                    : "Pack added successfully.";
+                const statusMessage = packLoadError
+                    ? `${saveMessage} However, the collection could not be refreshed: ${packLoadError}`
+                    : cleanupWarning
+                        ? "Pack updated, but old uploaded files could not be removed."
+                        : saveMessage;
+                setAdminStatus(statusMessage, packLoadError || cleanupWarning ? "error" : "success");
+            } catch (error) {
+                console.error(error);
+                let statusMessage = error.message || "Upload failed.";
+
+                const cleanupPaths = [uploadedFilePath, uploadedImagePath].filter(Boolean);
+                if (cleanupPaths.length && !databaseSaved) {
+                    const { error: cleanupError } = await db.storage.from(BUCKET).remove(cleanupPaths);
+                    if (cleanupError) {
+                        console.error("Could not clean up uploaded files after the save failed:", cleanupError);
+                        statusMessage += " Temporary uploaded files could not be cleaned up.";
+                    }
+                }
+                setAdminStatus(statusMessage, "error");
+            } finally {
+                addButton.disabled = false;
+                document.getElementById("cancelPackEdit").disabled = false;
+            }
+        });
+
+        document.getElementById("cancelPackEdit").addEventListener("click", cancelPackEdit);
+
+        async function deletePack(packId, button) {
+            if (!db || !isAdmin) return;
+
+            const pack = packs.find(item => String(item.id) === String(packId));
+            if (!pack || String(pack.id).startsWith("demo-")) return;
+
+            if (!confirm(`Delete "${pack.title}" and its uploaded files? This cannot be undone.`)) return;
+
+            button.disabled = true;
+            setAdminStatus(`Deleting "${pack.title}"...`);
+
+            try {
+                const { error: deleteRowError } = await db
+                    .from("txt_packs")
+                    .delete()
+                    .eq("id", pack.id);
+
+                if (deleteRowError) throw deleteRowError;
+
+                const paths = [pack.file_path, pack.image_path].filter(Boolean);
+                let cleanupError = null;
+                if (paths.length) {
+                    const { error } = await db.storage.from(BUCKET).remove(paths);
+                    cleanupError = error;
+                }
+
+                await loadPacks();
+                if (packLoadError) {
+                    setAdminStatus(
+                        `Pack deleted, but the collection could not be refreshed: ${packLoadError}`,
+                        "error"
+                    );
+                    return;
+                }
+                setAdminStatus(
+                    cleanupError
+                        ? `Pack removed, but its stored files could not be deleted: ${cleanupError.message}`
+                        : `Pack "${pack.title}" deleted successfully.`,
+                    cleanupError ? "error" : "success"
+                );
+            } catch (error) {
+                console.error("Could not delete pack:", error);
+                setAdminStatus(error.message || "Could not delete this pack.", "error");
+                button.disabled = false;
+            }
+        }
+
+        async function init() {
+            renderPacks();
+            if (db) {
+                await refreshAdminState();
+                await loadPacks();
+
+                db.auth.onAuthStateChange((_event, session) => {
+                    setTimeout(async () => {
+                        const user = session?.user;
+                        const adminCheck = user
+                            ? await verifyAdmin(user.id)
+                            : { allowed: false, error: null };
+                        isAdmin = adminCheck.allowed;
+                        currentUserId = isAdmin ? user.id : null;
+                        if (!isAdmin) isPreviewMode = false;
+                        updateAdminVisibility();
+                        renderPacks();
+                    }, 0);
+                });
+            }
+        }
+
+        init();
+    </script>
+</body>
+
+</html>
