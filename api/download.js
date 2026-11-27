@@ -91,7 +91,14 @@ module.exports = async function handler(req, res) {
             return respond(res, 502, { error: "Could not prepare this download." });
         }
 
-        const signedUrl = new URL(signedData.signedURL, `${supabaseUrl}/`);
+        const signedUrl = new URL(signedData.signedURL, `${supabaseUrl}/storage/v1/`);
+        const storageOrigin = new URL(supabaseUrl).origin;
+        if (signedUrl.origin !== storageOrigin) {
+            throw new Error("Supabase returned an unexpected signed URL origin.");
+        }
+        if (!signedUrl.pathname.startsWith("/storage/v1/")) {
+            signedUrl.pathname = `/storage/v1${signedUrl.pathname}`;
+        }
         const safeTitle = String(pack.title || "texture-pack")
             .replace(/[\\/:*?"<>|]+/g, "-")
             .trim() || "texture-pack";
